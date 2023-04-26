@@ -1,0 +1,92 @@
+@import './sass/normalize';
+@import './sass/keyboard';
+
+.virtual-keyboard {
+  background-color: #4a4a4ad4;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 100vh;
+  width: 100%;
+}
+.textarea {
+  width: 300px;
+  height: 100px;
+  order: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 1em;
+  background-color: #ccc;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: 300ms ease-in-out;
+}
+
+.textarea:focus {
+  background-color: white;
+  transform: scale(1.05);
+  box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+}
+
+.keyboard__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.keyboard__title {
+  font-size: 3rem;
+  text-align: center;
+}
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 700px;
+  height: 400px;
+  padding: 5px 0;
+  border-radius: 15px;
+  background: #676767;
+  box-shadow: -4px 4px 9px #363636, 4px -4px 9px #989898;
+  margin: 30px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.key {
+  text-align: center;
+  vertical-align: top;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  max-width: 90px;
+  border: 1px solid #ccc;
+  margin: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000000;
+  font-size: 1.4rem;
+  outline: none;
+  padding: 0 5px;
+  border-radius: 7px;
+  background: linear-gradient(45deg, #ffd044, #dcaf3a);
+  box-shadow: -1px 1px 2px #b28e2f, 1px -1px 4px #fff651;
+}
+
+.space {
+  width: 300px;
+}
+
+.key:hover {
+  border-radius: 6px;
+  background: #f4c240;
+  box-shadow: inset -7px 7px 14px #b28e2f, inset 7px -7px 14px #fff651;
+}
