@@ -1,37 +1,8 @@
 import './main.scss';
 
-function createKeyboardSection() {
-  const keyboardSection = document.createElement('section');
-  keyboardSection.classList.add('keyboard');
-}
+const appContainer = document.getElementById('app-keyboard');
 
-function createKeyboardContainer() {
-  const keyboardContainer = document.createElement('div');
-  keyboardSection.classList.add('container');
-}
-
-function createKeyboardTitle() {
-  const keyboardTitle = document.createElement('h1');
-  keyboardTitle.classList.add('keyboard__title');
-  keyboardTitle.innerText = 'Virtual keyboard';
-}
-
-function createKeyboardWrapper() {
-  const keyboardWrapper = document.createElement('div');
-  keyboardWrapper.classList.add('keyboard__wrapper');
-}
-
-function createTextArea() {
-  const keyboardWrapper = document.createElement('textarea');
-  keyboardWrapper.classList.add('keyboard-input');
-}
-
-function createKeyboard() {
-  const keyboard = document.createElement('ul');
-  keyboardWrapper.classList.add('keyboard__keys');
-}
-
-const rows = [
+const buttons = [
   [
     {
       values: {
@@ -371,6 +342,9 @@ const rows = [
   [
     {
       values: 'shift',
+      action: function (keyboard) {
+        keyboard.switchMode();
+      },
     },
     {
       values: {
@@ -445,10 +419,13 @@ const rows = [
       },
     },
     {
-      values: '&uarr;',
+      values: '⇧',
     },
     {
       values: 'shift',
+      action: function (keyboard) {
+        keyboard.switchMode();
+      },
     },
   ],
   [
@@ -456,57 +433,119 @@ const rows = [
       values: 'ctrl',
     },
     {
-      values: 'windows',
+      values: 'win',
     },
     {
       values: 'alt',
     },
     {
       values: 'space',
+      action: function () {},
     },
     {
       values: 'alt',
     },
+
+    {
+      values: '⇦',
+    },
+    {
+      values: '⇩',
+    },
+    {
+      values: '⇨',
+    },
     {
       values: 'ctrl',
-    },
-    {
-      values: '&larr;',
-    },
-    {
-      values: '&darr;',
-    },
-    {
-      values: '&rarr;',
     },
   ],
 ];
 
-function createRowKeys() {
-  const keyboardWrapper = document.createElement('textarea');
-  keyboardWrapper.classList.add('keyboard-input');
+function createKeyboardSection() {
+  const section = document.createElement('section');
+  section.classList.add('keyboard');
+  section.append(createKeyboardContainer());
+  return section;
 }
-// rows.forEach((row) => {
-//   const row = document.createElement('li');
-//   row.classList.add('keyboard__row')
-// });
 
-let letterQ = {
-  values: {
-    en: 'q',
-    ru: 'й',
-  },
-};
+function createKeyboardContainer() {
+  const container = document.createElement('div');
+  container.classList.add('container');
+  container.append(createKeyboardTitle(), createKeyboardWrapper());
+  return container;
+}
 
-let buttonB = {
-  values: {
-    en: {
-      uppercase: '<',
-      lowercase: ',',
-    },
-    ru: 'б',
-  },
-};
+function createKeyboardTitle() {
+  const title = document.createElement('h1');
+  title.classList.add('keyboard__title');
+  title.innerText = 'Virtual keyboard';
+  return title;
+}
+
+function createKeyboardWrapper() {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('keyboard__wrapper');
+  wrapper.append(createkeyboardTextarea(), createKeyboard());
+  return wrapper;
+}
+
+function createkeyboardTextarea() {
+  const textarea = document.createElement('textarea');
+  textarea.id = 'text-display';
+  textarea.classList.add('keyboard__text-display');
+  return textarea;
+}
+
+function createKeyboard() {
+  const keyboard = document.createElement('div');
+  keyboard.id = 'keyboard';
+  keyboard.classList.add('keyboard__keys');
+
+  let lang = 'en';
+  let mode = 'lowercase';
+  buttons.forEach((rowButton) => {
+    const buttonRowElement = document.createElement('ul');
+    buttonRowElement.classList.add('keyboard__row');
+
+    rowButton.forEach((button) => {
+      const buttonElement = document.createElement('li');
+      buttonElement.classList.add('key');
+      if (typeof button.values === 'object') {
+        if (typeof button.values[lang] === 'object') {
+          buttonElement.textContent = button.values[lang][mode];
+        } else {
+          buttonElement.textContent = button.values[lang];
+        }
+      } else {
+        buttonElement.textContent = button.values;
+      }
+      buttonRowElement.append(buttonElement);
+    });
+    keyboard.append(buttonRowElement);
+  });
+  keyboard.addEventListener('click', function(event) {
+    const target = event.target;
+  
+    if (target.classList.contains('key')) {
+      console.log(event.target);
+      const key = target.textContent;
+      // Действия при нажатии на клавишу
+    }
+  });
+  return keyboard;
+}
+
+appContainer.append(createKeyboardSection());
+// let buttonB = {
+//   values: {
+//     en: {
+//       uppercase: '<',
+//       lowercase: ',',
+//     },
+//     ru: 'б', ⇦', '⇩', '⇨', '⇧'
+//   },
+// };
+
 let buttonShift = {
   title: 'shift',
   values: function (keyboard) {
@@ -521,6 +560,9 @@ let buttonLanguage = {
 };
 
 let keyboard = {
+  mode: 'uppercase',
+  locale: 'en',
+
   getValue(letter) {
     if (typeof letter.values === 'function') {
       letter.values(this);
@@ -551,7 +593,15 @@ let keyboard = {
   switchLanguage() {
     this.locale = this.locale === 'en' ? 'ru' : 'en';
   },
-
-  mode: 'uppercase',
-  locale: 'en',
 };
+
+// let space = document.querySelector('.space');
+// let textareaDiv = document.getElementById('text-display');
+// console.dir('file: index.js:590 ~ textareaDiv:', textareaDiv.value);
+// console.log('file: index.js:589 ~ space:', space);
+// space.addEventListener('click', () => {
+//   textareaDiv.value += ' ';
+// });
+// textareaDiv.addEventListener('input', () => {
+//   console.log(textareaDiv.value);
+// });
