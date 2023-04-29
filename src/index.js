@@ -1,7 +1,5 @@
 import './main.scss';
 
-const appContainer = document.getElementById('app-keyboard');
-
 const buttons = [
   [
     {
@@ -159,11 +157,13 @@ const buttons = [
     },
     {
       values: 'backspace',
+      key: 'Backspace',
     },
   ],
   [
     {
       values: 'tab',
+      key: 'Tab',
     },
     {
       values: {
@@ -257,11 +257,13 @@ const buttons = [
     },
     {
       values: 'del',
+      key: 'Delete',
     },
   ],
   [
     {
       values: 'caps',
+      key: 'Capslock',
     },
     {
       values: {
@@ -337,11 +339,13 @@ const buttons = [
     },
     {
       values: 'enter',
+      key: 'Enter',
     },
   ],
   [
     {
       values: 'shift',
+      key: 'Shift',
       action: function (keyboard) {
         keyboard.switchMode();
       },
@@ -420,9 +424,11 @@ const buttons = [
     },
     {
       values: '⇧',
+      key: 'ArrowUp',
     },
     {
       values: 'shift',
+      key: 'Shift',
       action: function (keyboard) {
         keyboard.switchMode();
       },
@@ -431,143 +437,141 @@ const buttons = [
   [
     {
       values: 'ctrl',
+      key: 'Control',
     },
     {
       values: 'win',
+      key: 'Meta',
     },
     {
       values: 'alt',
+      key: 'Alt',
     },
     {
       values: 'space',
+      key: ' ',
       action: function () {},
     },
     {
       values: 'alt',
+      key: 'Alt',
     },
 
     {
       values: '⇦',
+      key: 'ArrowLeft',
     },
     {
       values: '⇩',
+      key: 'ArrowDown',
     },
     {
       values: '⇨',
+      key: 'ArrowRight',
     },
     {
       values: 'ctrl',
+      key: 'Control',
     },
   ],
 ];
+const appContainer = document.getElementById('app-keyboard');
+const toggleButton = document.getElementById('toggle-lang');
 
-function createKeyboardSection() {
-  const section = document.createElement('section');
-  section.classList.add('keyboard');
-  section.append(createKeyboardContainer());
-  return section;
-}
-
-function createKeyboardContainer() {
-  const container = document.createElement('div');
-  container.classList.add('container');
-  container.append(createKeyboardTitle(), createKeyboardWrapper());
-  return container;
-}
-
-function createKeyboardTitle() {
-  const title = document.createElement('h1');
-  title.classList.add('keyboard__title');
-  title.innerText = 'Virtual keyboard';
-  return title;
-}
-
-function createKeyboardWrapper() {
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('keyboard__wrapper');
-  wrapper.append(createkeyboardTextarea(), createKeyboard());
-  return wrapper;
-}
-
-function createkeyboardTextarea() {
-  const textarea = document.createElement('textarea');
-  textarea.id = 'text-display';
-  textarea.classList.add('keyboard__text-display');
-  return textarea;
-}
-
-function createKeyboard() {
-  const keyboard = document.createElement('div');
-  keyboard.id = 'keyboard';
-  keyboard.classList.add('keyboard__keys');
-
-  let lang = 'en';
-  let mode = 'lowercase';
-  buttons.forEach((rowButton) => {
-    const buttonRowElement = document.createElement('ul');
-    buttonRowElement.classList.add('keyboard__row');
-
-    rowButton.forEach((button) => {
-      const buttonElement = document.createElement('li');
-      buttonElement.classList.add('key');
-      if (typeof button.values === 'object') {
-        if (typeof button.values[lang] === 'object') {
-          buttonElement.textContent = button.values[lang][mode];
-        } else {
-          buttonElement.textContent = button.values[lang];
-        }
-      } else {
-        buttonElement.textContent = button.values;
-      }
-      buttonRowElement.append(buttonElement);
-    });
-    keyboard.append(buttonRowElement);
-  });
-  keyboard.addEventListener('click', function(event) {
-    const target = event.target;
-  
-    if (target.classList.contains('key')) {
-      console.log(event.target);
-      const key = target.textContent;
-      // Действия при нажатии на клавишу
-    }
-  });
-  return keyboard;
-}
-
-appContainer.append(createKeyboardSection());
-// let buttonB = {
-//   values: {
-//     en: {
-//       uppercase: '<',
-//       lowercase: ',',
-//     },
-//     ru: 'б', ⇦', '⇩', '⇨', '⇧'
-//   },
-// };
-
-let buttonShift = {
-  title: 'shift',
-  values: function (keyboard) {
-    keyboard.switchMode();
-  },
-};
-
-let buttonLanguage = {
-  values: function (keyboard) {
-    keyboard.switchLanguage();
-  },
-};
-
-let keyboard = {
+const Keyboard = {
   mode: 'uppercase',
   locale: 'en',
+
+  init() {
+    appContainer.append(this.createSection());
+    toggleButton.addEventListener('click', () => {
+      Keyboard.switchLanguage();
+    });
+  },
+
+  createSection() {
+    const section = document.createElement('section');
+    section.classList.add('keyboard');
+    section.append(this.createContainer());
+    return section;
+  },
+
+  createContainer() {
+    const container = document.createElement('div');
+    container.classList.add('container');
+    container.append(this.createTitle(), this.createWrapper());
+    return container;
+  },
+
+  createTitle() {
+    const title = document.createElement('h1');
+    title.classList.add('keyboard__title');
+    title.innerText = 'Virtual keyboard';
+    return title;
+  },
+
+  createWrapper() {
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('keyboard__wrapper');
+    wrapper.append(this.createTextarea(), this.createKeys());
+    return wrapper;
+  },
+
+  createTextarea() {
+    const textarea = document.createElement('textarea');
+    textarea.id = 'text-display';
+    textarea.classList.add('keyboard__text-display');
+    return textarea;
+  },
+
+  createKeys() {
+    const keys = document.createElement('div');
+    keys.id = 'keyboard';
+    keys.classList.add('keyboard__keys');
+
+    buttons.forEach((rowButton) => {
+      const buttonRowElement = document.createElement('ul');
+      buttonRowElement.classList.add('keyboard__row');
+
+      rowButton.forEach((button) => {
+        const buttonElement = document.createElement('li');
+        buttonElement.classList.add('key');
+        if (typeof button.values === 'object') {
+          if (typeof button.values[this.locale] === 'object') {
+            buttonElement.textContent = button.values[this.locale][this.mode];
+          } else {
+            buttonElement.textContent = button.values[this.locale];
+          }
+        } else {
+          buttonElement.textContent = button.values;
+        }
+        buttonRowElement.append(buttonElement);
+      });
+      keys.append(buttonRowElement);
+    });
+
+    keys.addEventListener('click', (event) => {
+      if (event.target.classList.contains('key')) {
+        const pressedKey = event.key;
+        const key = event.target.textContent;
+        console.log('Pressed key:', pressedKey);
+
+        // Действия при нажатии на клавишу
+        const value = this.getValue(
+          buttons.find((button) => button.values === key)
+        );
+        console.log('Value:', value);
+      }
+    });
+
+    return keys;
+  },
 
   getValue(letter) {
     if (typeof letter.values === 'function') {
       letter.values(this);
     } else {
-      let value = letter.values[this.locale]; // проверка на undefined
+      let value = letter.values[this.locale];
       if (typeof value === 'object') {
         return value[this.mode];
       } else {
@@ -579,7 +583,7 @@ let keyboard = {
   },
 
   getTitle(button) {
-    if (button.title !== 'undefined') {
+    if (button.title !== undefined) {
       return button.title;
     } else {
       return this.getValue(button);
@@ -592,8 +596,13 @@ let keyboard = {
 
   switchLanguage() {
     this.locale = this.locale === 'en' ? 'ru' : 'en';
-  },
+    console.log(this.locale);
+  }, 
 };
+
+window.addEventListener('DOMContentLoaded', function () {
+  Keyboard.init();
+});
 
 // let space = document.querySelector('.space');
 // let textareaDiv = document.getElementById('text-display');
