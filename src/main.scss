@@ -1,5 +1,12 @@
 @import './sass/normalize';
 @import './sass/keyboard';
+@import './sass/fonts/_fonts';
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+}
 
 .keyboard {
   background-color: #4f4f4f;
