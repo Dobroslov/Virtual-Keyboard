@@ -1,5 +1,6 @@
 const buttons = [
   {
+    keyCode: 192,
     values: {
       en: {
         lowercase: '`',
@@ -9,6 +10,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 49,
     values: {
       en: {
         lowercase: '1',
@@ -21,6 +23,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 50,
     values: {
       en: {
         lowercase: '2',
@@ -33,6 +36,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 51,
     values: {
       en: {
         lowercase: '3',
@@ -45,6 +49,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 52,
     values: {
       en: {
         lowercase: '4',
@@ -57,6 +62,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 53,
     values: {
       en: {
         lowercase: '5',
@@ -69,6 +75,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 54,
     values: {
       en: {
         lowercase: '6',
@@ -81,6 +88,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 55,
     values: {
       en: {
         lowercase: '7',
@@ -93,6 +101,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 56,
     values: {
       en: {
         lowercase: '8',
@@ -105,6 +114,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 57,
     values: {
       en: {
         lowercase: '9',
@@ -117,6 +127,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 48,
     values: {
       en: {
         lowercase: '0',
@@ -129,6 +140,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 189,
     values: {
       en: {
         lowercase: '-',
@@ -141,6 +153,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 187,
     values: {
       en: {
         lowercase: '=',
@@ -153,76 +166,89 @@ const buttons = [
     },
   },
   {
+    keyCode: 8,
     values: 'backspace',
     key: 'Backspace',
     isFunctional: true,
   },
   {
+    keyCode: 9,
     values: 'tab',
     key: 'Tab',
     isFunctional: true,
   },
   {
+    keyCode: 81,
     values: {
       en: 'q',
       ru: 'й',
     },
   },
   {
+    keyCode: 87,
     values: {
       en: 'w',
       ru: 'ц',
     },
   },
   {
+    keyCode: 69,
     values: {
       en: 'e',
       ru: 'у',
     },
   },
   {
+    keyCode: 82,
     values: {
       en: 'r',
       ru: 'к',
     },
   },
   {
+    keyCode: 84,
     values: {
       en: 't',
       ru: 'е',
     },
   },
   {
+    keyCode: 89,
     values: {
       en: 'y',
       ru: 'н',
     },
   },
   {
+    keyCode: 85,
     values: {
       en: 'u',
       ru: 'г',
     },
   },
   {
+    keyCode: 73,
     values: {
       en: 'i',
       ru: 'ш',
     },
   },
   {
+    keyCode: 79,
     values: {
       en: 'o',
       ru: 'щ',
     },
   },
   {
+    keyCode: 80,
     values: {
       en: 'p',
       ru: 'з',
     },
   },
   {
+    keyCode: 219,
     values: {
       en: {
         lowercase: '[',
@@ -232,6 +258,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 221,
     values: {
       en: {
         lowercase: ']',
@@ -241,6 +268,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 220,
     values: {
       en: {
         lowercase: '\\',
@@ -253,70 +281,82 @@ const buttons = [
     },
   },
   {
+    keyCode: 46,
     values: 'del',
     key: 'Delete',
     isFunctional: true,
   },
   {
+    keyCode: 20,
     values: 'caps',
     key: 'CapsLock',
     isFunctional: true,
   },
   {
+    keyCode: 65,
     values: {
       en: 'a',
       ru: 'ф',
     },
   },
   {
+    keyCode: 83,
     values: {
       en: 's',
       ru: 'ы',
     },
   },
   {
+    keyCode: 68,
     values: {
       en: 'd',
       ru: 'в',
     },
   },
   {
+    keyCode: 70,
     values: {
       en: 'f',
       ru: 'а',
     },
   },
   {
+    keyCode: 71,
     values: {
       en: 'g',
       ru: 'п',
     },
   },
   {
+    keyCode: 72,
     values: {
       en: 'h',
       ru: 'р',
     },
   },
   {
+    keyCode: 74,
     values: {
       en: 'j',
       ru: 'о',
     },
   },
   {
+    keyCode: 75,
     values: {
       en: 'k',
       ru: 'л',
     },
   },
   {
+    keyCode: 76,
     values: {
       en: 'l',
       ru: 'д',
     },
   },
   {
+    keyCode: 186,
     values: {
       en: {
         lowercase: ';',
@@ -326,67 +366,78 @@ const buttons = [
     },
   },
   {
+    keyCode: 222,
     values: {
       en: {
-        lowercase: "'",
+        lowercase: "\'",
         uppercase: '"',
       },
       ru: 'э',
     },
   },
   {
+    keyCode: 13,
     values: 'enter',
     key: 'Enter',
     isFunctional: true,
   },
   {
+    keyCode: 16,
     values: 'shift',
-    key: 'Shift',
+    code: 'ShiftLeft',
     isFunctional: true,
   },
   {
+    keyCode: 90,
     values: {
       en: 'z',
       ru: 'я',
     },
   },
   {
+    keyCode: 88,
     values: {
       en: 'x',
       ru: 'ч',
     },
   },
   {
+    keyCode: 67,
     values: {
       en: 'c',
       ru: 'с',
     },
   },
   {
+    keyCode: 86,
     values: {
       en: 'v',
       ru: 'м',
     },
   },
   {
+    keyCode: 66,
     values: {
       en: 'b',
       ru: 'и',
     },
   },
   {
+    keyCode: 78,
     values: {
       en: 'n',
       ru: 'т',
     },
   },
   {
+    keyCode: 77,
     values: {
       en: 'm',
       ru: 'ь',
     },
   },
   {
+    keyCode: 188,
     values: {
       en: {
         lowercase: ',',
@@ -396,6 +447,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 190,
     values: {
       en: {
         lowercase: '.',
@@ -405,6 +457,7 @@ const buttons = [
     },
   },
   {
+    keyCode: 191,
     values: {
       en: {
         lowercase: '/',
@@ -417,59 +470,75 @@ const buttons = [
     },
   },
   {
+    keyCode: 38,
     values: '⇧',
-    key: 'ArrowUp',
+    code: 'ArrowUp',
     isFunctional: true,
   },
   {
+    keyCode: 16,
     values: 'shift',
-    key: 'Shift',
+    code: 'ShiftLeft',
     isFunctional: true,
   },
   {
+    keyCode: 17,
     values: 'ctrl',
-    key: 'Control',
+    code: 'ControlLeft',
     isFunctional: true,
   },
   {
+    keyCode: 91,
     values: 'win',
-    key: 'Meta',
+    code: 'MetaLeft',
     isFunctional: true,
   },
   {
+    keyCode: 18,
     values: 'alt',
-    key: 'Alt',
+    code: 'AltLeft',
     isFunctional: true,
   },
   {
+    keyCode: 32,
     values: 'space',
     key: ' ',
+    code: 'Space',
     isFunctional: true,
   },
   {
+    keyCode: 18,
     values: 'alt',
     key: 'AltGraph',
+    code: 'AltRight',
     isFunctional: true,
   },
-
   {
+    keyCode: 37,
     values: '⇦',
     key: 'ArrowLeft',
+    code: 'ArrowLeft',
     isFunctional: true,
   },
   {
+    keyCode: 40,
     values: '⇩',
     key: 'ArrowDown',
+    code: 'ArrowDown',
     isFunctional: true,
   },
   {
+    keyCode: 39,
     values: '⇨',
     key: 'ArrowRight',
+    code: 'ArrowRight',
     isFunctional: true,
   },
   {
+    keyCode: 17,
     values: 'ctrl',
     key: 'Control',
+    code: 'ControlRight',
     isFunctional: true,
   },
 ];
