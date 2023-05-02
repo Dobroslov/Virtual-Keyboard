@@ -1,6 +1,7 @@
 const buttons = [
   {
     keyCode: 192,
+    eventCode: 'Backquote',
     values: {
       en: {
         lowercase: '`',
@@ -10,6 +11,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Digit1',
     keyCode: 49,
     values: {
       en: {
@@ -23,6 +25,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Digit2',
     keyCode: 50,
     values: {
       en: {
@@ -37,6 +40,7 @@ const buttons = [
   },
   {
     keyCode: 51,
+    eventCode: 'Digit3',
     values: {
       en: {
         lowercase: '3',
@@ -50,6 +54,7 @@ const buttons = [
   },
   {
     keyCode: 52,
+    eventCode: 'Digit4',
     values: {
       en: {
         lowercase: '4',
@@ -63,6 +68,7 @@ const buttons = [
   },
   {
     keyCode: 53,
+    eventCode: 'Digit5',
     values: {
       en: {
         lowercase: '5',
@@ -76,6 +82,7 @@ const buttons = [
   },
   {
     keyCode: 54,
+    eventCode: 'Digit6',
     values: {
       en: {
         lowercase: '6',
@@ -89,6 +96,7 @@ const buttons = [
   },
   {
     keyCode: 55,
+    eventCode: 'Digit7',
     values: {
       en: {
         lowercase: '7',
@@ -102,6 +110,7 @@ const buttons = [
   },
   {
     keyCode: 56,
+    eventCode: 'Digit8',
     values: {
       en: {
         lowercase: '8',
@@ -115,6 +124,7 @@ const buttons = [
   },
   {
     keyCode: 57,
+    eventCode: 'Digit9',
     values: {
       en: {
         lowercase: '9',
@@ -128,6 +138,7 @@ const buttons = [
   },
   {
     keyCode: 48,
+    eventCode: 'Digit0',
     values: {
       en: {
         lowercase: '0',
@@ -141,6 +152,7 @@ const buttons = [
   },
   {
     keyCode: 189,
+    eventCode: 'Minus',
     values: {
       en: {
         lowercase: '-',
@@ -154,6 +166,7 @@ const buttons = [
   },
   {
     keyCode: 187,
+    eventCode: 'Equal',
     values: {
       en: {
         lowercase: '=',
@@ -168,17 +181,18 @@ const buttons = [
   {
     keyCode: 8,
     values: 'backspace',
-    key: 'Backspace',
+    eventCode: 'Backspace',
     isFunctional: true,
   },
   {
     keyCode: 9,
     values: 'tab',
-    key: 'Tab',
+    eventCode: 'Tab',
     isFunctional: true,
   },
   {
     keyCode: 81,
+    eventCode: 'KeyQ',
     values: {
       en: 'q',
       ru: 'й',
@@ -186,6 +200,7 @@ const buttons = [
   },
   {
     keyCode: 87,
+    eventCode: 'KeyW',
     values: {
       en: 'w',
       ru: 'ц',
@@ -193,6 +208,7 @@ const buttons = [
   },
   {
     keyCode: 69,
+    eventCode: 'KeyE',
     values: {
       en: 'e',
       ru: 'у',
@@ -200,6 +216,7 @@ const buttons = [
   },
   {
     keyCode: 82,
+    eventCode: 'KeyR',
     values: {
       en: 'r',
       ru: 'к',
@@ -207,6 +224,7 @@ const buttons = [
   },
   {
     keyCode: 84,
+    eventCode: 'KeyT',
     values: {
       en: 't',
       ru: 'е',
@@ -214,6 +232,7 @@ const buttons = [
   },
   {
     keyCode: 89,
+    eventCode: 'KeyY',
     values: {
       en: 'y',
       ru: 'н',
@@ -221,6 +240,7 @@ const buttons = [
   },
   {
     keyCode: 85,
+    eventCode: 'KeyU',
     values: {
       en: 'u',
       ru: 'г',
@@ -228,6 +248,7 @@ const buttons = [
   },
   {
     keyCode: 73,
+    eventCode: 'KeyI',
     values: {
       en: 'i',
       ru: 'ш',
@@ -235,6 +256,7 @@ const buttons = [
   },
   {
     keyCode: 79,
+    eventCode: 'KeyO',
     values: {
       en: 'o',
       ru: 'щ',
@@ -242,6 +264,7 @@ const buttons = [
   },
   {
     keyCode: 80,
+    eventCode: 'KeyP',
     values: {
       en: 'p',
       ru: 'з',
@@ -249,6 +272,7 @@ const buttons = [
   },
   {
     keyCode: 219,
+    eventCode: 'BracketLeft',
     values: {
       en: {
         lowercase: '[',
@@ -259,6 +283,7 @@ const buttons = [
   },
   {
     keyCode: 221,
+    eventCode: 'BracketRight',
     values: {
       en: {
         lowercase: ']',
@@ -269,6 +294,7 @@ const buttons = [
   },
   {
     keyCode: 220,
+    eventCode: 'Backslash',
     values: {
       en: {
         lowercase: '\\',
@@ -282,17 +308,18 @@ const buttons = [
   },
   {
     keyCode: 46,
+    eventCode: 'Delete',
     values: 'del',
-    key: 'Delete',
     isFunctional: true,
   },
   {
     keyCode: 20,
+    eventCode: 'CapsLock',
     values: 'caps',
-    key: 'CapsLock',
     isFunctional: true,
   },
   {
+    eventCode: 'KeyA',
     keyCode: 65,
     values: {
       en: 'a',
@@ -300,6 +327,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyS',
     keyCode: 83,
     values: {
       en: 's',
@@ -307,6 +335,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyD',
     keyCode: 68,
     values: {
       en: 'd',
@@ -314,6 +343,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyF',
     keyCode: 70,
     values: {
       en: 'f',
@@ -321,6 +351,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyG',
     keyCode: 71,
     values: {
       en: 'g',
@@ -328,6 +359,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyH',
     keyCode: 72,
     values: {
       en: 'h',
@@ -335,6 +367,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyJ',
     keyCode: 74,
     values: {
       en: 'j',
@@ -342,6 +375,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyK',
     keyCode: 75,
     values: {
       en: 'k',
@@ -349,6 +383,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyL',
     keyCode: 76,
     values: {
       en: 'l',
@@ -356,6 +391,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Semicolon',
     keyCode: 186,
     values: {
       en: {
@@ -366,6 +402,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Quote',
     keyCode: 222,
     values: {
       en: {
@@ -377,17 +414,18 @@ const buttons = [
   },
   {
     keyCode: 13,
+    eventCode: 'Enter',
     values: 'enter',
-    key: 'Enter',
     isFunctional: true,
   },
   {
     keyCode: 16,
+    eventCode: 'ShiftLeft',
     values: 'shift',
-    code: 'ShiftLeft',
     isFunctional: true,
   },
   {
+    eventCode: 'KeyZ',
     keyCode: 90,
     values: {
       en: 'z',
@@ -395,6 +433,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyX',
     keyCode: 88,
     values: {
       en: 'x',
@@ -402,6 +441,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyC',
     keyCode: 67,
     values: {
       en: 'c',
@@ -409,6 +449,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyV',
     keyCode: 86,
     values: {
       en: 'v',
@@ -416,6 +457,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyB',
     keyCode: 66,
     values: {
       en: 'b',
@@ -423,6 +465,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyN',
     keyCode: 78,
     values: {
       en: 'n',
@@ -430,6 +473,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'KeyM',
     keyCode: 77,
     values: {
       en: 'm',
@@ -437,6 +481,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Comma',
     keyCode: 188,
     values: {
       en: {
@@ -447,6 +492,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Period',
     keyCode: 190,
     values: {
       en: {
@@ -457,6 +503,7 @@ const buttons = [
     },
   },
   {
+    eventCode: 'Slash',
     keyCode: 191,
     values: {
       en: {
@@ -471,74 +518,75 @@ const buttons = [
   },
   {
     keyCode: 38,
+    eventCode: 'ArrowUp',
     values: '⇧',
-    code: 'ArrowUp',
     isFunctional: true,
   },
   {
     keyCode: 16,
+    eventCode: 'ShiftRight',
     values: 'shift',
-    code: 'ShiftLeft',
     isFunctional: true,
   },
   {
     keyCode: 17,
+    eventCode: 'ControlLeft',
     values: 'ctrl',
-    code: 'ControlLeft',
     isFunctional: true,
   },
   {
     keyCode: 91,
+    eventCode: 'MetaLeft',
     values: 'win',
-    code: 'MetaLeft',
     isFunctional: true,
   },
   {
     keyCode: 18,
+    eventCode: 'AltLeft',
     values: 'alt',
-    code: 'AltLeft',
     isFunctional: true,
   },
   {
     keyCode: 32,
+    eventCode: 'Space',
     values: 'space',
     key: ' ',
-    code: 'Space',
     isFunctional: true,
   },
   {
     keyCode: 18,
+    eventCode: 'AltRight',
     values: 'alt',
     key: 'AltGraph',
-    code: 'AltRight',
     isFunctional: true,
   },
   {
     keyCode: 37,
+    eventCode: 'ArrowLeft',
     values: '⇦',
     key: 'ArrowLeft',
-    code: 'ArrowLeft',
     isFunctional: true,
   },
   {
     keyCode: 40,
+    eventCode: 'ArrowDown',
     values: '⇩',
     key: 'ArrowDown',
-    code: 'ArrowDown',
     isFunctional: true,
   },
   {
     keyCode: 39,
+    eventCode: 'ArrowRight',
     values: '⇨',
     key: 'ArrowRight',
-    code: 'ArrowRight',
     isFunctional: true,
   },
   {
+    
     keyCode: 17,
+    eventCode: 'ControlRight',
     values: 'ctrl',
     key: 'Control',
-    code: 'ControlRight',
     isFunctional: true,
   },
 ];

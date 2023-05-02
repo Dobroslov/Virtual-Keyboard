@@ -7,9 +7,80 @@ const Keyboard = {
   mode: 'lowercase',
   locale: 'en',
   textarea: null,
+  shift: false,
+  capsLock: false,
+  // keyFunctions: {
+  //   Space: () => this.useSpace(),
+  //   Enter: (e) => {
+  //     e.preventDefault();
+  //     this.useEnter();
+  //   },
+  //   Delete: (e) => {
+  //     e.preventDefault();
+  //     console.log('pressedKey Delete');
+  //   },
+  //   Backspace: () => this.useBackspace(),
+  //   AltLeft: (e) => {
+  //     console.log('pressedKey Alt');
+  //     e.preventDefault();
+  //   },
+  //   AltRight: (e) => {
+  //     console.log('pressedKey Alt');
+  //     e.preventDefault();
+  //   },
+  //   ControlLeft: (e) => {
+  //     console.log('pressedKey Control');
+  //     e.preventDefault();
+  //   },
+  //   ControlRight: (e) => {
+  //     console.log('pressedKey Control');
+  //     e.preventDefault();
+  //   },
+  //   ShiftLeft: (e) => {
+  //     console.log('pressedKey ShiftRight');
+  //     e.preventDefault();
+  //   },
+  //   ShiftRight: (e) => {
+  //     console.log('pressedKey ShiftRight');
+  //     e.preventDefault();
+  //   },
+  //   Tab: (e) => {
+  //     e.preventDefault();
+  //     this.useTab();
+  //   },
+  //   CapsLock: () => {
+  //     console.log('pressedKey Capslock');
+  //   },
+  //   ArrowUp: () => {
+  //     this.useArrowTop(textarea);
+  //     console.log('pressedKey ⇧');
+  //   },
+  //   ArrowLeft: () => {
+  //     this.useArrowLeft(textarea);
+  //     console.log('pressedKey ⇦');
+  //   },
+  //   ArrowDown: () => {
+  //     this.useArrowBottom(textarea);
+  //     console.log('pressedKey ⇩');
+  //   },
+  //   ArrowRight: () => {
+  //     this.useArrowRight(textarea);
+  //     console.log('pressedKey ⇨');
+  //   },
+  //   MetaLeft: (e) => {
+  //     console.log('pressedKey Meta');
+  //   },
+  // },
 
   init() {
     appContainer.append(this.createSection());
+    // Для избежания дублирования символов при нажатии кнопок на физической клавиатуре
+    document.addEventListener('keydown', (e) => {
+      const target = e.target;
+      if (target.tagName === 'TEXTAREA') {
+        e.preventDefault();
+      }
+    });
   },
 
   createSection() {
@@ -40,7 +111,7 @@ const Keyboard = {
   createWrapper() {
     const wrapper = document.createElement('div');
     wrapper.classList.add('keyboard__wrapper');
-    wrapper.append(this.createTextarea(), this.createKeys());
+    wrapper.append(this.createTextarea(), this.createKeyboard());
     return wrapper;
   },
 
@@ -112,9 +183,9 @@ const Keyboard = {
     return buttons.find((buttonObj) => buttonObj.id === id);
   },
 
-  findButtonByCode(keyCode) {
+  findButtonByCode(eventCode) {
     let result = buttons.find((buttonObj) => {
-      if (buttonObj.keyCode === keyCode) {
+      if (buttonObj.eventCode === eventCode) {
         return true;
       }
     });
@@ -122,7 +193,7 @@ const Keyboard = {
     return result;
   },
 
-  createKeys() {
+  createKeyboard() {
     const keys = document.createElement('div');
     keys.id = 'keyboard';
     keys.classList.add('keyboard__keys');
@@ -141,43 +212,53 @@ const Keyboard = {
         if (!button.hasOwnProperty('isFunctional')) {
           textarea.value += target.textContent;
         } else {
-          if (button.keyCode === 32) {
+          if (button.eventCode === 'Space') {
             this.useSpace();
-          } else if (button.keyCode === 13) {
+          } else if (button.eventCode === 'Enter') {
             e.preventDefault();
             this.useEnter();
-          } else if (button.keyCode === 46) {
+          } else if (button.eventCode === 'Delete') {
+            this.useDelete(textarea)
             e.preventDefault();
             console.log('pressedKey Delete');
-          } else if (button.keyCode === 8) {
+          } else if (button.eventCode === 'Backspace') {
             this.useBackspace();
-          } else if (button.keyCode === 18) {
+          } else if (
+            button.eventCode === 'AltLeft' ||
+            button.eventCode === 'AltRight'
+          ) {
             console.log('pressedKey Alt');
             e.preventDefault();
-          } else if (button.keyCode === 17) {
+          } else if (
+            button.eventCode === 'ControlRight' ||
+            button.eventCode === 'ControlLeft'
+          ) {
             console.log('pressedKey Control');
             e.preventDefault();
-          } else if (button.keyCode === 16) {
+          } else if (
+            button.eventCode === 'ShiftLeft' ||
+            button.eventCode === 'ShiftRight'
+          ) {
             e.preventDefault();
-            console.log('pressedKey Shift');
-          } else if (button.keyCode === 9) {
+            console.log('pressedKey ShiftRight');
+          } else if (button.eventCode === 'Tab') {
             e.preventDefault();
             this.useTab();
-          } else if (button.keyCode === 20) {
+          } else if (button.eventCode === 'CapsLock') {
             console.log('pressedKey Capslock');
-          } else if (button.keyCode === 38) {
+          } else if (button.eventCode === 'ArrowUp') {
             this.useArrowTop(textarea);
             console.log('pressedKey ⇧');
-          } else if (button.keyCode === 37) {
+          } else if (button.eventCode === 'ArrowLeft') {
             this.useArrowLeft(textarea);
             console.log('pressedKey ⇦');
-          } else if (button.keyCode === 40) {
+          } else if (button.eventCode === 'ArrowDown') {
             this.useArrowBottom(textarea);
             console.log('pressedKey ⇩');
-          } else if (button.keyCode === 39) {
+          } else if (button.eventCode === 'ArrowRight') {
             this.useArrowRight(textarea);
             console.log('pressedKey ⇨');
-          } else if (button.keyCode === 91) {
+          } else if (button.eventCode === 'MetaLeft') {
             e.preventDefault();
             console.log('pressedKey Meta');
           }
@@ -193,80 +274,90 @@ const Keyboard = {
 
   initiateHandlerKeyDown() {
     document.addEventListener('keydown', (e) => {
-      const pressedKeyCode = e.keyCode;
+      const eventCode = e.code;
       const presedKey = e.key;
       const textarea = this.textarea;
       textarea.focus();
-      let button = this.findButtonByCode(pressedKeyCode);
 
+      let button = this.findButtonByCode(eventCode);
+      // Подсветка кнопки при нажатии
       if (button) {
         const key = document.getElementById(button.id);
         key.classList.add('active');
       }
 
-      if (!button.hasOwnProperty('isFunctional')) {
+      if (button && !button.hasOwnProperty('isFunctional')) {
         textarea.value += presedKey;
-      } else if (pressedKeyCode === 32) {
-        this.useSpace();
-      } else if (pressedKeyCode === 13) {
-        e.preventDefault();
-        this.useEnter();
-      } else if (pressedKeyCode === 46) {
-        this.useDelete(textarea);
-        e.preventDefault();
-      } else if (pressedKeyCode === 8) {
-        this.useBackspace();
-      } else if (pressedKeyCode === 18) {
-        console.log('pressedKey Alt');
-        e.preventDefault();
-      } else if (pressedKeyCode === 17) {
-        console.log('pressedKey Control');
-        e.preventDefault();
-      } else if (button.code === 'ShiftLeft') {
-        e.preventDefault();
-        console.log('pressedKey ShiftLeft');
-        // this.switchMode();
-      } else if (pressedKeyCode === 9) {
-        this.useTab();
-        e.preventDefault();
-      } else if (pressedKeyCode === 20) {
-        console.log('pressedKey Capslock');
-        // this.switchMode();
-      } else if (pressedKeyCode === 38) {
-        this.useArrowTop(textarea);
-        console.log('pressedKey ⇧');
-      } else if (pressedKeyCode === 37) {
-        this.useArrowLeft(textarea);
-        console.log('pressedKey ⇦');
-      } else if (pressedKeyCode === 40) {
-        this.useArrowBottom(textarea);
-        console.log('pressedKey ⇩');
-      } else if (pressedKeyCode === 39) {
-        this.useArrowRight(textarea);
-        console.log('pressedKey ⇨');
-      } else if (pressedKeyCode === 91) {
-        e.preventDefault();
-        console.log('pressedKey Windows');
       } else {
-        textarea.value = textarea.value;
+        // const keyFunction = this.keyFunctions[eventCode];
+        // if (keyFunction) {
+        //   keyFunction(e);
+        // }
+        if (button.eventCode === 'Space') {
+          this.useSpace();
+        } else if (button.eventCode === 'Enter') {
+          e.preventDefault();
+          this.useEnter();
+        } else if (button.eventCode === 'Delete') {
+          e.preventDefault();
+          this.useDelete(textarea)
+          console.log('pressedKey Delete');
+        } else if (button.eventCode === 'Backspace') {
+          this.useBackspace();
+        } else if (
+          button.eventCode === 'AltLeft' ||
+          button.eventCode === 'AltRight'
+        ) {
+          console.log('pressedKey Alt');
+          e.preventDefault();
+        } else if (
+          button.eventCode === 'ControlRight' ||
+          button.eventCode === 'ControlLeft'
+        ) {
+          console.log('pressedKey Control');
+          e.preventDefault();
+        } else if (
+          button.eventCode === 'ShiftLeft' ||
+          button.eventCode === 'ShiftRight'
+        ) {
+          e.preventDefault();
+          console.log('pressedKey ShiftRight');
+        } else if (button.eventCode === 'Tab') {
+          e.preventDefault();
+          this.useTab();
+        } else if (button.eventCode === 'CapsLock') {
+          console.log('pressedKey Capslock');
+        } else if (button.eventCode === 'ArrowUp') {
+          this.useArrowTop(textarea);
+          console.log('pressedKey ⇧');
+        } else if (button.eventCode === 'ArrowLeft') {
+          this.useArrowLeft(textarea);
+          console.log('pressedKey ⇦');
+        } else if (button.eventCode === 'ArrowDown') {
+          this.useArrowBottom(textarea);
+          console.log('pressedKey ⇩');
+        } else if (button.eventCode === 'ArrowRight') {
+          this.useArrowRight(textarea);
+          console.log('pressedKey ⇨');
+        } else if (button.eventCode === 'MetaLeft') {
+          e.preventDefault();
+          console.log('pressedKey Meta');
+        }
+        else {
+          textarea.value = textarea.value;
+        }
       }
     });
   },
 
   initiateHandlerKeyUp() {
     document.addEventListener('keyup', (e) => {
-      const pressedKeyCode = e.keyCode;
-      let button = this.findButtonByCode(pressedKeyCode);
+      const pressedEventCode = e.code;
+      let button = this.findButtonByCode(pressedEventCode);
       if (button) {
         const key = document.getElementById(button.id);
         key.classList.remove('active');
       }
-
-      // if (keyCode === 16) {
-      //   console.log('pressedKey Shift');
-      //   e.preventDefault();
-      // this.switchMode();
-      // }
     });
   },
 
@@ -346,19 +437,28 @@ const Keyboard = {
   switchMode() {
     this.mode = this.mode === 'uppercase' ? 'lowercase' : 'uppercase';
     console.log('switchMode', this.mode);
+    this.rerender();
   },
 
   switchLanguage() {
     this.locale = this.locale === 'en' ? 'ru' : 'en';
-    this.rerender();
+
     console.log('switchLanguage', this.locale);
   },
 
-  rerender() {
-    // Keyboard.createKeys();
-  },
+  rerender() {},
 };
 
 window.addEventListener('DOMContentLoaded', () => {
   Keyboard.init();
 });
+
+// смена языка на клавиатуре
+// смена на заглавные буквы 1) нажимаем capslock 2) нажимаем shift
+// подсветка дублирующих кнопок при нажатии
+// фикс двойных символов ++
+// фикс нажатия левых кнопок которые дают undfined
+// создание боковой панели для сочетания клавишь
+// создание одной функции для switch
+// рефакторинг кода, возможно создание класса
+// доделать стили
