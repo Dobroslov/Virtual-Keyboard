@@ -11,6 +11,7 @@ function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _ty
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var buttons = [{
   keyCode: 192,
+  eventCode: 'Backquote',
   values: {
     en: {
       lowercase: '`',
@@ -19,6 +20,7 @@ var buttons = [{
     ru: 'ё'
   }
 }, {
+  eventCode: 'Digit1',
   keyCode: 49,
   values: {
     en: {
@@ -31,6 +33,7 @@ var buttons = [{
     }
   }
 }, {
+  eventCode: 'Digit2',
   keyCode: 50,
   values: {
     en: {
@@ -44,6 +47,7 @@ var buttons = [{
   }
 }, {
   keyCode: 51,
+  eventCode: 'Digit3',
   values: {
     en: {
       lowercase: '3',
@@ -56,6 +60,7 @@ var buttons = [{
   }
 }, {
   keyCode: 52,
+  eventCode: 'Digit4',
   values: {
     en: {
       lowercase: '4',
@@ -68,6 +73,7 @@ var buttons = [{
   }
 }, {
   keyCode: 53,
+  eventCode: 'Digit5',
   values: {
     en: {
       lowercase: '5',
@@ -80,6 +86,7 @@ var buttons = [{
   }
 }, {
   keyCode: 54,
+  eventCode: 'Digit6',
   values: {
     en: {
       lowercase: '6',
@@ -92,6 +99,7 @@ var buttons = [{
   }
 }, {
   keyCode: 55,
+  eventCode: 'Digit7',
   values: {
     en: {
       lowercase: '7',
@@ -104,6 +112,7 @@ var buttons = [{
   }
 }, {
   keyCode: 56,
+  eventCode: 'Digit8',
   values: {
     en: {
       lowercase: '8',
@@ -116,6 +125,7 @@ var buttons = [{
   }
 }, {
   keyCode: 57,
+  eventCode: 'Digit9',
   values: {
     en: {
       lowercase: '9',
@@ -128,6 +138,7 @@ var buttons = [{
   }
 }, {
   keyCode: 48,
+  eventCode: 'Digit0',
   values: {
     en: {
       lowercase: '0',
@@ -140,6 +151,7 @@ var buttons = [{
   }
 }, {
   keyCode: 189,
+  eventCode: 'Minus',
   values: {
     en: {
       lowercase: '-',
@@ -152,6 +164,7 @@ var buttons = [{
   }
 }, {
   keyCode: 187,
+  eventCode: 'Equal',
   values: {
     en: {
       lowercase: '=',
@@ -165,75 +178,86 @@ var buttons = [{
 }, {
   keyCode: 8,
   values: 'backspace',
-  key: 'Backspace',
+  eventCode: 'Backspace',
   isFunctional: true
 }, {
   keyCode: 9,
   values: 'tab',
-  key: 'Tab',
+  eventCode: 'Tab',
   isFunctional: true
 }, {
   keyCode: 81,
+  eventCode: 'KeyQ',
   values: {
     en: 'q',
     ru: 'й'
   }
 }, {
   keyCode: 87,
+  eventCode: 'KeyW',
   values: {
     en: 'w',
     ru: 'ц'
   }
 }, {
   keyCode: 69,
+  eventCode: 'KeyE',
   values: {
     en: 'e',
     ru: 'у'
   }
 }, {
   keyCode: 82,
+  eventCode: 'KeyR',
   values: {
     en: 'r',
     ru: 'к'
   }
 }, {
   keyCode: 84,
+  eventCode: 'KeyT',
   values: {
     en: 't',
     ru: 'е'
   }
 }, {
   keyCode: 89,
+  eventCode: 'KeyY',
   values: {
     en: 'y',
     ru: 'н'
   }
 }, {
   keyCode: 85,
+  eventCode: 'KeyU',
   values: {
     en: 'u',
     ru: 'г'
   }
 }, {
   keyCode: 73,
+  eventCode: 'KeyI',
   values: {
     en: 'i',
     ru: 'ш'
   }
 }, {
   keyCode: 79,
+  eventCode: 'KeyO',
   values: {
     en: 'o',
     ru: 'щ'
   }
 }, {
   keyCode: 80,
+  eventCode: 'KeyP',
   values: {
     en: 'p',
     ru: 'з'
   }
 }, {
   keyCode: 219,
+  eventCode: 'BracketLeft',
   values: {
     en: {
       lowercase: '[',
@@ -243,6 +267,7 @@ var buttons = [{
   }
 }, {
   keyCode: 221,
+  eventCode: 'BracketRight',
   values: {
     en: {
       lowercase: ']',
@@ -252,6 +277,7 @@ var buttons = [{
   }
 }, {
   keyCode: 220,
+  eventCode: 'Backslash',
   values: {
     en: {
       lowercase: '\\',
@@ -264,69 +290,79 @@ var buttons = [{
   }
 }, {
   keyCode: 46,
+  eventCode: 'Delete',
   values: 'del',
-  key: 'Delete',
   isFunctional: true
 }, {
   keyCode: 20,
+  eventCode: 'CapsLock',
   values: 'caps',
-  key: 'CapsLock',
   isFunctional: true
 }, {
+  eventCode: 'KeyA',
   keyCode: 65,
   values: {
     en: 'a',
     ru: 'ф'
   }
 }, {
+  eventCode: 'KeyS',
   keyCode: 83,
   values: {
     en: 's',
     ru: 'ы'
   }
 }, {
+  eventCode: 'KeyD',
   keyCode: 68,
   values: {
     en: 'd',
     ru: 'в'
   }
 }, {
+  eventCode: 'KeyF',
   keyCode: 70,
   values: {
     en: 'f',
     ru: 'а'
   }
 }, {
+  eventCode: 'KeyG',
   keyCode: 71,
   values: {
     en: 'g',
     ru: 'п'
   }
 }, {
+  eventCode: 'KeyH',
   keyCode: 72,
   values: {
     en: 'h',
     ru: 'р'
   }
 }, {
+  eventCode: 'KeyJ',
   keyCode: 74,
   values: {
     en: 'j',
     ru: 'о'
   }
 }, {
+  eventCode: 'KeyK',
   keyCode: 75,
   values: {
     en: 'k',
     ru: 'л'
   }
 }, {
+  eventCode: 'KeyL',
   keyCode: 76,
   values: {
     en: 'l',
     ru: 'д'
   }
 }, {
+  eventCode: 'Semicolon',
   keyCode: 186,
   values: {
     en: {
@@ -336,67 +372,76 @@ var buttons = [{
     ru: 'ж'
   }
 }, {
+  eventCode: 'Quote',
   keyCode: 222,
   values: {
     en: {
-      lowercase: "\'",
+      lowercase: "'",
       uppercase: '"'
     },
     ru: 'э'
   }
 }, {
   keyCode: 13,
+  eventCode: 'Enter',
   values: 'enter',
-  key: 'Enter',
   isFunctional: true
 }, {
   keyCode: 16,
+  eventCode: 'ShiftLeft',
   values: 'shift',
-  code: 'ShiftLeft',
   isFunctional: true
 }, {
+  eventCode: 'KeyZ',
   keyCode: 90,
   values: {
     en: 'z',
     ru: 'я'
   }
 }, {
+  eventCode: 'KeyX',
   keyCode: 88,
   values: {
     en: 'x',
     ru: 'ч'
   }
 }, {
+  eventCode: 'KeyC',
   keyCode: 67,
   values: {
     en: 'c',
     ru: 'с'
   }
 }, {
+  eventCode: 'KeyV',
   keyCode: 86,
   values: {
     en: 'v',
     ru: 'м'
   }
 }, {
+  eventCode: 'KeyB',
   keyCode: 66,
   values: {
     en: 'b',
     ru: 'и'
   }
 }, {
+  eventCode: 'KeyN',
   keyCode: 78,
   values: {
     en: 'n',
     ru: 'т'
   }
 }, {
+  eventCode: 'KeyM',
   keyCode: 77,
   values: {
     en: 'm',
     ru: 'ь'
   }
 }, {
+  eventCode: 'Comma',
   keyCode: 188,
   values: {
     en: {
@@ -406,6 +451,7 @@ var buttons = [{
     ru: 'б'
   }
 }, {
+  eventCode: 'Period',
   keyCode: 190,
   values: {
     en: {
@@ -415,6 +461,7 @@ var buttons = [{
     ru: 'ю'
   }
 }, {
+  eventCode: 'Slash',
   keyCode: 191,
   values: {
     en: {
@@ -428,64 +475,64 @@ var buttons = [{
   }
 }, {
   keyCode: 38,
+  eventCode: 'ArrowUp',
   values: '⇧',
-  code: 'ArrowUp',
   isFunctional: true
 }, {
   keyCode: 16,
+  eventCode: 'ShiftRight',
   values: 'shift',
-  code: 'ShiftLeft',
   isFunctional: true
 }, {
   keyCode: 17,
+  eventCode: 'ControlLeft',
   values: 'ctrl',
-  code: 'ControlLeft',
   isFunctional: true
 }, {
   keyCode: 91,
+  eventCode: 'MetaLeft',
   values: 'win',
-  code: 'MetaLeft',
   isFunctional: true
 }, {
   keyCode: 18,
+  eventCode: 'AltLeft',
   values: 'alt',
-  code: 'AltLeft',
   isFunctional: true
 }, {
   keyCode: 32,
+  eventCode: 'Space',
   values: 'space',
   key: ' ',
-  code: 'Space',
   isFunctional: true
 }, {
   keyCode: 18,
+  eventCode: 'AltRight',
   values: 'alt',
   key: 'AltGraph',
-  code: 'AltRight',
   isFunctional: true
 }, {
   keyCode: 37,
+  eventCode: 'ArrowLeft',
   values: '⇦',
   key: 'ArrowLeft',
-  code: 'ArrowLeft',
   isFunctional: true
 }, {
   keyCode: 40,
+  eventCode: 'ArrowDown',
   values: '⇩',
   key: 'ArrowDown',
-  code: 'ArrowDown',
   isFunctional: true
 }, {
   keyCode: 39,
+  eventCode: 'ArrowRight',
   values: '⇨',
   key: 'ArrowRight',
-  code: 'ArrowRight',
   isFunctional: true
 }, {
   keyCode: 17,
+  eventCode: 'ControlRight',
   values: 'ctrl',
   key: 'Control',
-  code: 'ControlRight',
   isFunctional: true
 }];
 function generateId() {
@@ -502,13 +549,25 @@ var buttonsWithId = buttons.map(function (button) {
 function src_typeof(obj) { "@babel/helpers - typeof"; return src_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, src_typeof(obj); }
 
 
-var appContainer = document.getElementById('app-keyboard');
+var body = document.body;
 var Keyboard = {
   mode: 'lowercase',
   locale: 'en',
   textarea: null,
+  shift: false,
+  isCapsPressed: false,
+  keyFunctions: null,
   init: function init() {
-    appContainer.append(this.createSection());
+    body.append(this.createSection());
+    this.initiateKeyFunctions();
+    // Для избежания дублирования символов при нажатии кнопок на физической клавиатуре
+
+    document.addEventListener('keydown', function (e) {
+      var target = e.target;
+      if (target.tagName === 'TEXTAREA') {
+        e.preventDefault();
+      }
+    });
   },
   createSection: function createSection() {
     var section = document.createElement('section');
@@ -531,30 +590,39 @@ var Keyboard = {
   createWrapper: function createWrapper() {
     var wrapper = document.createElement('div');
     wrapper.classList.add('keyboard__wrapper');
-    wrapper.append(this.createTextarea(), this.createKeys());
+    wrapper.append(this.createTextarea(), this.createKeyboard());
     return wrapper;
   },
-  createHandleToggleLang: function createHandleToggleLang(locale) {
+  createHandleToggleLang: function createHandleToggleLang() {
     var _this = this;
-    var language;
-    if (locale === 'en') {
-      language = 'English';
-    } else if (locale === 'ru') {
-      language = 'Русский';
-    }
     var handlToggle = document.createElement('div');
     handlToggle.classList.add('checkbox-wrapper');
     var input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
-    var span = document.createElement('span');
-    span.classList.add('keyboard__chebox-lang');
-    span.innerText = "".concat(language);
+    var span = this.createHandleToggleSpan();
     handlToggle.append(input, span);
+    this.updateLangLabel(span);
+    document.addEventListener('keydown', function (e) {
+      if (e.shiftKey && e.altKey) {
+        _this.switchLanguage();
+        _this.updateLangLabel(span);
+      }
+    });
     handlToggle.addEventListener('click', function () {
       _this.switchLanguage();
+      _this.updateLangLabel(span);
     });
     return handlToggle;
+  },
+  createHandleToggleSpan: function createHandleToggleSpan() {
+    var span = document.createElement('span');
+    span.classList.add('keyboard__chebox-lang');
+    return span;
+  },
+  updateLangLabel: function updateLangLabel(span) {
+    var language = this.locale === 'en' ? 'English' : 'Русский';
+    span.innerText = "".concat(language);
   },
   createTextarea: function createTextarea() {
     var textarea = document.createElement('textarea');
@@ -585,26 +653,13 @@ var Keyboard = {
       if (src_typeof(buttonObj.values[this.locale]) === 'object') {
         buttonElement.textContent = buttonObj.values[this.locale][this.mode];
       } else {
-        buttonElement.textContent = buttonObj.values[this.locale];
+        buttonElement.textContent = this.handleMode(buttonObj.values[this.locale]);
       }
     } else {
       buttonElement.textContent = buttonObj.values;
     }
   },
-  findButtonById: function findButtonById(id) {
-    return dataButtons.find(function (buttonObj) {
-      return buttonObj.id === id;
-    });
-  },
-  findButtonByCode: function findButtonByCode(keyCode) {
-    var result = dataButtons.find(function (buttonObj) {
-      if (buttonObj.keyCode === keyCode) {
-        return true;
-      }
-    });
-    return result;
-  },
-  createKeys: function createKeys() {
+  createKeyboard: function createKeyboard() {
     var _this2 = this;
     var keys = document.createElement('div');
     keys.id = 'keyboard';
@@ -623,47 +678,10 @@ var Keyboard = {
         if (!button.hasOwnProperty('isFunctional')) {
           textarea.value += target.textContent;
         } else {
-          if (button.keyCode === 32) {
-            _this2.useSpace();
-          } else if (button.keyCode === 13) {
-            e.preventDefault();
-            _this2.useEnter();
-          } else if (button.keyCode === 46) {
-            e.preventDefault();
-            console.log('pressedKey Delete');
-          } else if (button.keyCode === 8) {
-            _this2.useBackspace();
-          } else if (button.keyCode === 18) {
-            console.log('pressedKey Alt');
-            e.preventDefault();
-          } else if (button.keyCode === 17) {
-            console.log('pressedKey Control');
-            e.preventDefault();
-          } else if (button.keyCode === 16) {
-            e.preventDefault();
-            console.log('pressedKey Shift');
-          } else if (button.keyCode === 9) {
-            e.preventDefault();
-            _this2.useTab();
-          } else if (button.keyCode === 20) {
-            console.log('pressedKey Capslock');
-          } else if (button.keyCode === 38) {
-            _this2.useArrowTop(textarea);
-            console.log('pressedKey ⇧');
-          } else if (button.keyCode === 37) {
-            _this2.useArrowLeft(textarea);
-            console.log('pressedKey ⇦');
-          } else if (button.keyCode === 40) {
-            _this2.useArrowBottom(textarea);
-            console.log('pressedKey ⇩');
-          } else if (button.keyCode === 39) {
-            _this2.useArrowRight(textarea);
-            console.log('pressedKey ⇨');
-          } else if (button.keyCode === 91) {
-            e.preventDefault();
-            console.log('pressedKey Meta');
+          var keyFunction = _this2.keyFunctions[button.eventCode];
+          if (keyFunction) {
+            keyFunction(e, textarea);
           }
-          _this2.textarea.value = _this2.textarea.value;
         }
       }
     });
@@ -671,81 +689,81 @@ var Keyboard = {
     this.initiateHandlerKeyUp();
     return keys;
   },
+  handleMode: function handleMode(text) {
+    return this.mode === 'uppercase' ? text.toUpperCase() : text.toLowerCase();
+  },
+  findButtonById: function findButtonById(id) {
+    var button = dataButtons.find(function (buttonObj) {
+      return buttonObj.id === id;
+    });
+    return button ? button : null;
+  },
+  findButtonByCode: function findButtonByCode(eventCode) {
+    var result = dataButtons.find(function (buttonObj) {
+      if (buttonObj.eventCode === eventCode) {
+        return true;
+      }
+    });
+    return result ? result : null;
+  },
   initiateHandlerKeyDown: function initiateHandlerKeyDown() {
     var _this3 = this;
     document.addEventListener('keydown', function (e) {
-      var pressedKeyCode = e.keyCode;
+      if (e.repeat) {
+        return;
+      }
+      var eventCode = e.code;
       var presedKey = e.key;
       var textarea = _this3.textarea;
       textarea.focus();
-      var button = _this3.findButtonByCode(pressedKeyCode);
+      var button = _this3.findButtonByCode(eventCode);
+
+      // Подсветка кнопки при нажатии
+
       if (button) {
         var key = document.getElementById(button.id);
-        key.classList.add('active');
+        if (button.eventCode === 'CapsLock') {
+          _this3.handleCapsLock(key);
+        } else {
+          key.classList.add('active');
+        }
       }
-      if (!button.hasOwnProperty('isFunctional')) {
+      if (button && !button.hasOwnProperty('isFunctional')) {
         textarea.value += presedKey;
-      } else if (pressedKeyCode === 32) {
-        _this3.useSpace();
-      } else if (pressedKeyCode === 13) {
-        e.preventDefault();
-        _this3.useEnter();
-      } else if (pressedKeyCode === 46) {
-        _this3.useDelete(textarea);
-        e.preventDefault();
-      } else if (pressedKeyCode === 8) {
-        _this3.useBackspace();
-      } else if (pressedKeyCode === 18) {
-        console.log('pressedKey Alt');
-        e.preventDefault();
-      } else if (pressedKeyCode === 17) {
-        console.log('pressedKey Control');
-        e.preventDefault();
-      } else if (button.code === 'ShiftLeft') {
-        e.preventDefault();
-        console.log('pressedKey ShiftLeft');
-        // this.switchMode();
-      } else if (pressedKeyCode === 9) {
-        _this3.useTab();
-        e.preventDefault();
-      } else if (pressedKeyCode === 20) {
-        console.log('pressedKey Capslock');
-        // this.switchMode();
-      } else if (pressedKeyCode === 38) {
-        _this3.useArrowTop(textarea);
-        console.log('pressedKey ⇧');
-      } else if (pressedKeyCode === 37) {
-        _this3.useArrowLeft(textarea);
-        console.log('pressedKey ⇦');
-      } else if (pressedKeyCode === 40) {
-        _this3.useArrowBottom(textarea);
-        console.log('pressedKey ⇩');
-      } else if (pressedKeyCode === 39) {
-        _this3.useArrowRight(textarea);
-        console.log('pressedKey ⇨');
-      } else if (pressedKeyCode === 91) {
-        e.preventDefault();
-        console.log('pressedKey Windows');
       } else {
-        textarea.value = textarea.value;
+        var keyFunction = _this3.keyFunctions[button.eventCode];
+        if (keyFunction) {
+          keyFunction(e, textarea);
+        } else {
+          textarea.value = textarea.value;
+        }
       }
     });
+  },
+  handleCapsLock: function handleCapsLock(key) {
+    if (this.isCapsPressed === false) {
+      console.log(this.isCapsPressed);
+      key.classList.add('active');
+      this.isCapsPressed = true;
+      console.log(this.isCapsPressed);
+    } else {
+      key.classList.remove('active');
+      this.isCapsPressed = false;
+    }
   },
   initiateHandlerKeyUp: function initiateHandlerKeyUp() {
     var _this4 = this;
     document.addEventListener('keyup', function (e) {
-      var pressedKeyCode = e.keyCode;
-      var button = _this4.findButtonByCode(pressedKeyCode);
+      var pressedEventCode = e.code;
+      var button = _this4.findButtonByCode(pressedEventCode);
       if (button) {
         var key = document.getElementById(button.id);
-        key.classList.remove('active');
+        if (button.eventCode === 'CapsLock') {
+          return;
+        } else {
+          key.classList.remove('active');
+        }
       }
-
-      // if (keyCode === 16) {
-      //   console.log('pressedKey Shift');
-      //   e.preventDefault();
-      // this.switchMode();
-      // }
     });
   },
   useSpace: function useSpace() {
@@ -757,8 +775,22 @@ var Keyboard = {
   useEnter: function useEnter() {
     this.textarea.value += '\n';
   },
-  useBackspace: function useBackspace() {
-    this.textarea.value = this.textarea.value.slice(0, -1);
+  useBackspace: function useBackspace(textarea) {
+    var currentPos = textarea.selectionStart;
+    var endPos = textarea.selectionEnd;
+    var text = textarea.value;
+    if (currentPos === endPos) {
+      // Если нет выделенного текста
+      text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
+      textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
+      textarea.selectionEnd = currentPos - 1;
+    } else {
+      // Если есть выделенный текст
+      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+      textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
+      textarea.selectionEnd = currentPos;
+    }
+    textarea.value = text; // Обновляем значение textarea
   },
   useDelete: function useDelete(textarea) {
     var currentPos = textarea.selectionStart;
@@ -810,19 +842,97 @@ var Keyboard = {
   },
   switchMode: function switchMode() {
     this.mode = this.mode === 'uppercase' ? 'lowercase' : 'uppercase';
-    console.log('switchMode', this.mode);
+    this.rerender();
   },
   switchLanguage: function switchLanguage() {
     this.locale = this.locale === 'en' ? 'ru' : 'en';
     this.rerender();
-    console.log('switchLanguage', this.locale);
   },
+  initiateKeyFunctions: function initiateKeyFunctions() {
+    var _this5 = this;
+    this.keyFunctions = {
+      Space: function Space(e, textarea) {
+        return _this5.useSpace();
+      },
+      Enter: function Enter(e, textarea) {
+        e.preventDefault();
+        _this5.useEnter();
+      },
+      Delete: function Delete(e, textarea) {
+        e.preventDefault();
+        _this5.useDelete(textarea);
+      },
+      Backspace: function Backspace(e, textarea) {
+        return _this5.useBackspace(textarea);
+      },
+      AltLeft: function AltLeft(e, textarea) {
+        e.preventDefault();
+      },
+      AltRight: function AltRight(e, textarea) {
+        e.preventDefault();
+      },
+      ControlLeft: function ControlLeft(e, textarea) {
+        e.preventDefault();
+      },
+      ControlRight: function ControlRight(e, textarea) {
+        e.preventDefault();
+      },
+      ShiftLeft: function ShiftLeft(e, textarea) {
+        e.preventDefault();
+        console.log(e.key);
+        _this5.switchMode();
+      },
+      ShiftRight: function ShiftRight(e, textarea) {
+        e.preventDefault();
+        _this5.switchMode();
+      },
+      Tab: function Tab(e, textarea) {
+        e.preventDefault();
+        _this5.useTab();
+      },
+      CapsLock: function CapsLock(e, textarea) {
+        console.log();
+        _this5.switchMode();
+      },
+      ArrowUp: function ArrowUp(e, textarea) {
+        _this5.useArrowTop(textarea);
+      },
+      ArrowLeft: function ArrowLeft(e, textarea) {
+        _this5.useArrowLeft(textarea);
+      },
+      ArrowDown: function ArrowDown(e, textarea) {
+        _this5.useArrowBottom(textarea);
+      },
+      ArrowRight: function ArrowRight(e, textarea) {
+        _this5.useArrowRight(textarea);
+      },
+      MetaLeft: function MetaLeft(e, textarea) {}
+    };
+  },
+  rerenderButton: function rerenderButton(button) {},
   rerender: function rerender() {
-    // Keyboard.createKeys();
+    var _this6 = this;
+    dataButtons.forEach(function (button) {
+      if (button) {
+        var buttonObj = document.getElementById(button.id);
+        _this6.renderButton(button, buttonObj);
+      }
+    });
   }
 };
 window.addEventListener('DOMContentLoaded', function () {
   Keyboard.init();
 });
+
+// смена языка на клавиатуре ++
+// смена на заглавные буквы 1) нажимаем capslock 2) нажимаем shift--
+// подсветка дублирующих кнопок при нажатии ++
+// фикс двойных символов ++
+// фикс нажатия неизвестных кнопок которые дают undfined ++
+// создание боковой панели для сочетания клавишь
+// создание одной функции для switch ++
+// рефакторинг кода, возможно создание класса +-
+// доделать стили
+// доделать удаление через backspace так же как и на del ++
 /******/ })()
 ;
