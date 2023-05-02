@@ -406,7 +406,7 @@ const buttons = [
     keyCode: 222,
     values: {
       en: {
-        lowercase: "\'",
+        lowercase: "'",
         uppercase: '"',
       },
       ru: 'э',
@@ -582,7 +582,6 @@ const buttons = [
     isFunctional: true,
   },
   {
-    
     keyCode: 17,
     eventCode: 'ControlRight',
     values: 'ctrl',
