@@ -1,18 +1,18 @@
 import './main.scss';
 import buttons from './dataButtons';
 
-const appContainer = document.getElementById('app-keyboard');
+const body = document.body;
 
 const Keyboard = {
   mode: 'lowercase',
   locale: 'en',
   textarea: null,
   shift: false,
-  capsLock: false,
+  isCapsPressed: false,
   keyFunctions: null,
 
   init() {
-    appContainer.append(this.createSection());
+    body.append(this.createSection());
     this.initiateKeyFunctions();
     // Для избежания дублирования символов при нажатии кнопок на физической клавиатуре
 
@@ -62,21 +62,31 @@ const Keyboard = {
     const input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
-    const span = document.createElement('span');
-    span.classList.add('keyboard__chebox-lang');
-    // span.innerText = `${language}`;
+    const span = this.createHandleToggleSpan();
     handlToggle.append(input, span);
-    this.updateLangLabel(span)
+    this.updateLangLabel(span);
+    document.addEventListener('keydown', (e) => {
+      if (e.shiftKey && e.altKey) {
+        this.switchLanguage();
+        this.updateLangLabel(span);
+      }
+    });
     handlToggle.addEventListener('click', () => {
       this.switchLanguage();
-      this.updateLangLabel(span)
+      this.updateLangLabel(span);
     });
     return handlToggle;
   },
 
-  updateLangLabel(span){
-    const language = this.locale === 'en' ? 'English' :'Русский';
-    span.innerText = `${language}`
+  createHandleToggleSpan() {
+    const span = document.createElement('span');
+    span.classList.add('keyboard__chebox-lang');
+    return span;
+  },
+
+  updateLangLabel(span) {
+    const language = this.locale === 'en' ? 'English' : 'Русский';
+    span.innerText = `${language}`;
   },
 
   createTextarea() {
@@ -160,7 +170,8 @@ const Keyboard = {
   },
 
   findButtonById(id) {
-    return buttons.find((buttonObj) => buttonObj.id === id);
+    const button = buttons.find((buttonObj) => buttonObj.id === id);
+    return button ? button : null;
   },
 
   findButtonByCode(eventCode) {
@@ -170,21 +181,30 @@ const Keyboard = {
       }
     });
 
-    return result;
+    return result ? result : null;
   },
 
   initiateHandlerKeyDown() {
     document.addEventListener('keydown', (e) => {
+      if (e.repeat) {
+        return;
+      }
       const eventCode = e.code;
       const presedKey = e.key;
       const textarea = this.textarea;
       textarea.focus();
 
       let button = this.findButtonByCode(eventCode);
+
       // Подсветка кнопки при нажатии
+
       if (button) {
         const key = document.getElementById(button.id);
-        key.classList.add('active');
+        if (button.eventCode === 'CapsLock') {
+          this.handleCapsLock(key);
+        } else {
+          key.classList.add('active');
+        }
       }
 
       if (button && !button.hasOwnProperty('isFunctional')) {
@@ -200,16 +220,29 @@ const Keyboard = {
     });
   },
 
+  handleCapsLock(key) {
+    if (this.isCapsPressed === false) {
+      console.log(this.isCapsPressed);
+      key.classList.add('active');
+      this.isCapsPressed = true;
+      console.log(this.isCapsPressed);
+    } else {
+      key.classList.remove('active');
+      this.isCapsPressed = false;
+    }
+  },
+
   initiateHandlerKeyUp() {
     document.addEventListener('keyup', (e) => {
       const pressedEventCode = e.code;
       let button = this.findButtonByCode(pressedEventCode);
       if (button) {
         const key = document.getElementById(button.id);
-        key.classList.remove('active');
-      }
-      if (['ShiftLeft', 'ShiftRight'].includes(pressedEventCode)) {
-        this.switchMode();
+        if (button.eventCode === 'CapsLock') {
+          return;
+        } else {
+          key.classList.remove('active');
+        }
       }
     });
   },
@@ -226,8 +259,22 @@ const Keyboard = {
     this.textarea.value += '\n';
   },
 
-  useBackspace() {
-    this.textarea.value = this.textarea.value.slice(0, -1);
+  useBackspace(textarea) {
+    let currentPos = textarea.selectionStart;
+    let endPos = textarea.selectionEnd;
+    let text = textarea.value;
+    if (currentPos === endPos) {
+      // Если нет выделенного текста
+      text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
+      textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
+      textarea.selectionEnd = currentPos - 1;
+    } else {
+      // Если есть выделенный текст
+      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+      textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
+      textarea.selectionEnd = currentPos;
+    }
+    textarea.value = text; // Обновляем значение textarea
   },
 
   useDelete(textarea) {
@@ -287,6 +334,16 @@ const Keyboard = {
     textarea.setSelectionRange(prevPosition, prevPosition);
   },
 
+  switchMode() {
+    this.mode = this.mode === 'uppercase' ? 'lowercase' : 'uppercase';
+    this.rerender();
+  },
+
+  switchLanguage() {
+    this.locale = this.locale === 'en' ? 'ru' : 'en';
+    this.rerender();
+  },
+
   initiateKeyFunctions() {
     this.keyFunctions = {
       Space: (e, textarea) => this.useSpace(),
@@ -298,7 +355,7 @@ const Keyboard = {
         e.preventDefault();
         this.useDelete(textarea);
       },
-      Backspace: (e, textarea) => this.useBackspace(),
+      Backspace: (e, textarea) => this.useBackspace(textarea),
       AltLeft: (e, textarea) => {
         e.preventDefault();
       },
@@ -312,18 +369,20 @@ const Keyboard = {
         e.preventDefault();
       },
       ShiftLeft: (e, textarea) => {
-        this.switchMode();
         e.preventDefault();
+        console.log(e.key);
+        this.switchMode();
       },
       ShiftRight: (e, textarea) => {
-        this.switchMode();
         e.preventDefault();
+        this.switchMode();
       },
       Tab: (e, textarea) => {
         e.preventDefault();
         this.useTab();
       },
       CapsLock: (e, textarea) => {
+        console.log();
         this.switchMode();
       },
       ArrowUp: (e, textarea) => {
@@ -342,17 +401,7 @@ const Keyboard = {
     };
   },
 
-  switchMode() {
-    this.mode = this.mode === 'uppercase' ? 'lowercase' : 'uppercase';
-    console.log('switchMode', this.mode);
-    this.rerender();
-  },
-
-  switchLanguage() {
-    this.locale = this.locale === 'en' ? 'ru' : 'en';
-    this.rerender();
-    console.log('switchLanguage', this.locale);
-  },
+  rerenderButton(button) {},
 
   rerender() {
     buttons.forEach((button) => {
@@ -369,7 +418,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // смена языка на клавиатуре ++
-// смена на заглавные буквы 1) нажимаем capslock 2) нажимаем shift ++
+// смена на заглавные буквы 1) нажимаем capslock 2) нажимаем shift--
 // подсветка дублирующих кнопок при нажатии ++
 // фикс двойных символов ++
 // фикс нажатия неизвестных кнопок которые дают undfined ++
@@ -377,4 +426,4 @@ window.addEventListener('DOMContentLoaded', () => {
 // создание одной функции для switch ++
 // рефакторинг кода, возможно создание класса +-
 // доделать стили
-// доделать удаление через backspace так же как и на del
+// доделать удаление через backspace так же как и на del ++
