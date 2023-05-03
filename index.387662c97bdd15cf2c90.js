@@ -555,6 +555,7 @@ var Keyboard = {
   locale: 'en',
   textarea: null,
   shift: false,
+  alt: false,
   isCapsPressed: false,
   keyFunctions: null,
   init: function init() {
@@ -578,7 +579,7 @@ var Keyboard = {
   createContainer: function createContainer() {
     var container = document.createElement('div');
     container.classList.add('container');
-    container.append(this.createTitle(), this.createHandleToggleLang(this.locale), this.createWrapper());
+    container.append(this.createTitle(), this.createInfoPanelWrapper(), this.createWrapper());
     return container;
   },
   createTitle: function createTitle() {
@@ -593,27 +594,34 @@ var Keyboard = {
     wrapper.append(this.createTextarea(), this.createKeyboard());
     return wrapper;
   },
+  createInfoPanelWrapper: function createInfoPanelWrapper() {
+    var panel = document.createElement('div');
+    panel.classList.add('keyboard__panel-info');
+    panel.append(this.createHandleToggleLang(), this.createButtonExample());
+    return panel;
+  },
   createHandleToggleLang: function createHandleToggleLang() {
     var _this = this;
-    var handlToggle = document.createElement('div');
-    handlToggle.classList.add('checkbox-wrapper');
+    var handleToggle = document.createElement('div');
+    handleToggle.classList.add('checkbox-wrapper');
     var input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
     var span = this.createHandleToggleSpan();
-    handlToggle.append(input, span);
+    handleToggle.append(input, span);
     this.updateLangLabel(span);
     document.addEventListener('keydown', function (e) {
       if (e.shiftKey && e.altKey) {
+        input.checked = !input.checked;
         _this.switchLanguage();
         _this.updateLangLabel(span);
       }
     });
-    handlToggle.addEventListener('click', function () {
+    handleToggle.addEventListener('click', function () {
       _this.switchLanguage();
       _this.updateLangLabel(span);
     });
-    return handlToggle;
+    return handleToggle;
   },
   createHandleToggleSpan: function createHandleToggleSpan() {
     var span = document.createElement('span');
@@ -623,6 +631,24 @@ var Keyboard = {
   updateLangLabel: function updateLangLabel(span) {
     var language = this.locale === 'en' ? 'English' : 'Русский';
     span.innerText = "".concat(language);
+  },
+  createButtonExample: function createButtonExample() {
+    var divExample = document.createElement('div');
+    divExample.classList.add('info__buttons');
+    var fistBtn = document.createElement('div');
+    fistBtn.classList.add('key');
+    fistBtn.textContent = 'Shift';
+    var secondBtn = document.createElement('div');
+    secondBtn.classList.add('key');
+    secondBtn.textContent = 'Alt';
+    var div = document.createElement('div');
+    div.classList.add('info__buttons_text');
+    div.textContent = '+';
+    var divText = document.createElement('div');
+    divText.classList.add('info__buttons_text');
+    divText.textContent = 'Change language';
+    divExample.append(fistBtn, div, secondBtn, divText);
+    return divExample;
   },
   createTextarea: function createTextarea() {
     var textarea = document.createElement('textarea');
@@ -689,23 +715,6 @@ var Keyboard = {
     this.initiateHandlerKeyUp();
     return keys;
   },
-  handleMode: function handleMode(text) {
-    return this.mode === 'uppercase' ? text.toUpperCase() : text.toLowerCase();
-  },
-  findButtonById: function findButtonById(id) {
-    var button = dataButtons.find(function (buttonObj) {
-      return buttonObj.id === id;
-    });
-    return button ? button : null;
-  },
-  findButtonByCode: function findButtonByCode(eventCode) {
-    var result = dataButtons.find(function (buttonObj) {
-      if (buttonObj.eventCode === eventCode) {
-        return true;
-      }
-    });
-    return result ? result : null;
-  },
   initiateHandlerKeyDown: function initiateHandlerKeyDown() {
     var _this3 = this;
     document.addEventListener('keydown', function (e) {
@@ -722,16 +731,12 @@ var Keyboard = {
 
       if (button) {
         var key = document.getElementById(button.id);
-        if (button.eventCode === 'CapsLock') {
-          _this3.handleCapsLock(key);
-        } else {
-          key.classList.add('active');
-        }
+        key.classList.add('active');
       }
       if (button && !button.hasOwnProperty('isFunctional')) {
         textarea.value += presedKey;
       } else {
-        var keyFunction = _this3.keyFunctions[button.eventCode];
+        var keyFunction = _this3.keyFunctions[button === null || button === void 0 ? void 0 : button.eventCode];
         if (keyFunction) {
           keyFunction(e, textarea);
         } else {
@@ -739,17 +744,6 @@ var Keyboard = {
         }
       }
     });
-  },
-  handleCapsLock: function handleCapsLock(key) {
-    if (this.isCapsPressed === false) {
-      console.log(this.isCapsPressed);
-      key.classList.add('active');
-      this.isCapsPressed = true;
-      console.log(this.isCapsPressed);
-    } else {
-      key.classList.remove('active');
-      this.isCapsPressed = false;
-    }
   },
   initiateHandlerKeyUp: function initiateHandlerKeyUp() {
     var _this4 = this;
@@ -760,85 +754,28 @@ var Keyboard = {
         var key = document.getElementById(button.id);
         if (button.eventCode === 'CapsLock') {
           return;
+        } else if (button.eventCode === 'ShiftLeft' || button.eventCode === 'ShiftRight') {
+          _this4.switchMode();
+          key.classList.remove('active');
         } else {
           key.classList.remove('active');
         }
       }
     });
   },
-  useSpace: function useSpace() {
-    this.textarea.value += ' ';
+  findButtonById: function findButtonById(id) {
+    var button = dataButtons.find(function (buttonObj) {
+      return buttonObj.id === id;
+    });
+    return button ? button : null;
   },
-  useTab: function useTab() {
-    this.textarea.value += '    ';
-  },
-  useEnter: function useEnter() {
-    this.textarea.value += '\n';
-  },
-  useBackspace: function useBackspace(textarea) {
-    var currentPos = textarea.selectionStart;
-    var endPos = textarea.selectionEnd;
-    var text = textarea.value;
-    if (currentPos === endPos) {
-      // Если нет выделенного текста
-      text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
-      textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
-      textarea.selectionEnd = currentPos - 1;
-    } else {
-      // Если есть выделенный текст
-      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
-      textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
-      textarea.selectionEnd = currentPos;
-    }
-    textarea.value = text; // Обновляем значение textarea
-  },
-  useDelete: function useDelete(textarea) {
-    var currentPos = textarea.selectionStart;
-    var endPos = textarea.selectionEnd;
-    var text = textarea.value;
-    if (currentPos === endPos) {
-      // Если нет выделенного текста
-      text = text.slice(0, currentPos) + text.slice(currentPos + 1); // Удаляем символ после курсора
-    } else {
-      // Если есть выделенный текст
-      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
-    }
-
-    textarea.value = text; // Обновляем значение textarea
-    textarea.selectionStart = currentPos; // Устанавливаем курсор на том же месте
-    textarea.selectionEnd = currentPos;
-  },
-  useArrowRight: function useArrowRight(textarea) {
-    var currentPos = textarea.selectionStart;
-    textarea.setSelectionRange(currentPos + 1, currentPos + 1);
-  },
-  useArrowLeft: function useArrowLeft(textarea) {
-    var currentPos = textarea.selectionStart;
-    textarea.setSelectionRange(currentPos - 1, currentPos - 1);
-  },
-  useArrowBottom: function useArrowBottom(textarea) {
-    var currentPosition = textarea.selectionStart;
-    var currentLine = textarea.value.substr(0, currentPosition).split('\n').length - 1;
-    var lineLength = textarea.value.split('\n')[currentLine].length;
-    var nextPosition;
-    if (currentLine === textarea.value.split('\n').length - 1) {
-      nextPosition = currentPosition;
-    } else {
-      nextPosition = Math.min(currentPosition + lineLength + 1, textarea.value.length);
-    }
-    textarea.setSelectionRange(nextPosition, nextPosition);
-  },
-  useArrowTop: function useArrowTop(textarea) {
-    var currentPosition = textarea.selectionStart;
-    var currentLine = textarea.value.substr(0, currentPosition).split('\n').length - 1;
-    var lineLength = textarea.value.split('\n')[currentLine].length;
-    var prevPosition;
-    if (currentLine === 0) {
-      prevPosition = currentPosition;
-    } else {
-      prevPosition = Math.max(currentPosition - lineLength - 1, 0);
-    }
-    textarea.setSelectionRange(prevPosition, prevPosition);
+  findButtonByCode: function findButtonByCode(eventCode) {
+    var result = dataButtons.find(function (buttonObj) {
+      if (buttonObj.eventCode === eventCode) {
+        return true;
+      }
+    });
+    return result ? result : null;
   },
   switchMode: function switchMode() {
     this.mode = this.mode === 'uppercase' ? 'lowercase' : 'uppercase';
@@ -848,38 +785,72 @@ var Keyboard = {
     this.locale = this.locale === 'en' ? 'ru' : 'en';
     this.rerender();
   },
+  handleMode: function handleMode(text) {
+    return this.mode === 'uppercase' ? text.toUpperCase() : text.toLowerCase();
+  },
   initiateKeyFunctions: function initiateKeyFunctions() {
     var _this5 = this;
     this.keyFunctions = {
+      CapsLock: function CapsLock(e, textarea) {
+        var button = _this5.findButtonByCode('CapsLock');
+        var htmlButton = document.getElementById(button.id);
+        var htmlClass = e.type === 'click' ? 'active-click' : 'active';
+        if (_this5.isCapsPressed === false) {
+          htmlButton.classList.add(htmlClass);
+        } else {
+          htmlButton.classList.remove(htmlClass);
+        }
+        _this5.isCapsPressed = !_this5.isCapsPressed;
+        _this5.switchMode();
+      },
       Space: function Space(e, textarea) {
-        return _this5.useSpace();
+        _this5.textarea.value += ' ';
       },
       Enter: function Enter(e, textarea) {
         e.preventDefault();
-        _this5.useEnter();
+        _this5.textarea.value += '\n';
       },
       Delete: function Delete(e, textarea) {
         e.preventDefault();
-        _this5.useDelete(textarea);
+        var currentPos = textarea.selectionStart;
+        var endPos = textarea.selectionEnd;
+        var text = textarea.value;
+        if (currentPos === endPos) {
+          // Если нет выделенного текста
+          text = text.slice(0, currentPos) + text.slice(currentPos + 1); // Удаляем символ после курсора
+        } else {
+          // Если есть выделенный текст
+          text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+        }
+
+        textarea.value = text; // Обновляем значение textarea
+        textarea.selectionStart = currentPos; // Устанавливаем курсор на том же месте
+        textarea.selectionEnd = currentPos;
       },
       Backspace: function Backspace(e, textarea) {
-        return _this5.useBackspace(textarea);
+        var currentPos = textarea.selectionStart;
+        var endPos = textarea.selectionEnd;
+        var text = textarea.value;
+        if (currentPos === endPos) {
+          // Если нет выделенного текста
+          text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
+          textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
+          textarea.selectionEnd = currentPos - 1;
+        } else {
+          // Если есть выделенный текст
+          text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+          textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
+          textarea.selectionEnd = currentPos;
+        }
+        textarea.value = text; // Обновляем значение textarea
       },
-      AltLeft: function AltLeft(e, textarea) {
-        e.preventDefault();
-      },
-      AltRight: function AltRight(e, textarea) {
-        e.preventDefault();
-      },
-      ControlLeft: function ControlLeft(e, textarea) {
-        e.preventDefault();
-      },
-      ControlRight: function ControlRight(e, textarea) {
-        e.preventDefault();
-      },
+
+      AltLeft: function AltLeft(e, textarea) {},
+      AltRight: function AltRight(e, textarea) {},
+      ControlLeft: function ControlLeft(e, textarea) {},
+      ControlRight: function ControlRight(e, textarea) {},
       ShiftLeft: function ShiftLeft(e, textarea) {
         e.preventDefault();
-        console.log(e.key);
         _this5.switchMode();
       },
       ShiftRight: function ShiftRight(e, textarea) {
@@ -888,28 +859,43 @@ var Keyboard = {
       },
       Tab: function Tab(e, textarea) {
         e.preventDefault();
-        _this5.useTab();
-      },
-      CapsLock: function CapsLock(e, textarea) {
-        console.log();
-        _this5.switchMode();
+        _this5.textarea.value += '    ';
       },
       ArrowUp: function ArrowUp(e, textarea) {
-        _this5.useArrowTop(textarea);
+        var currentPosition = textarea.selectionStart;
+        var currentLine = textarea.value.substr(0, currentPosition).split('\n').length - 1;
+        var lineLength = textarea.value.split('\n')[currentLine].length;
+        var prevPosition;
+        if (currentLine === 0) {
+          prevPosition = currentPosition;
+        } else {
+          prevPosition = Math.max(currentPosition - lineLength - 1, 0);
+        }
+        textarea.setSelectionRange(prevPosition, prevPosition);
       },
       ArrowLeft: function ArrowLeft(e, textarea) {
-        _this5.useArrowLeft(textarea);
+        var currentPos = textarea.selectionStart;
+        textarea.setSelectionRange(currentPos - 1, currentPos - 1);
       },
       ArrowDown: function ArrowDown(e, textarea) {
-        _this5.useArrowBottom(textarea);
+        var currentPosition = textarea.selectionStart;
+        var currentLine = textarea.value.substr(0, currentPosition).split('\n').length - 1;
+        var lineLength = textarea.value.split('\n')[currentLine].length;
+        var nextPosition;
+        if (currentLine === textarea.value.split('\n').length - 1) {
+          nextPosition = currentPosition;
+        } else {
+          nextPosition = Math.min(currentPosition + lineLength + 1, textarea.value.length);
+        }
+        textarea.setSelectionRange(nextPosition, nextPosition);
       },
       ArrowRight: function ArrowRight(e, textarea) {
-        _this5.useArrowRight(textarea);
+        var currentPos = textarea.selectionStart;
+        textarea.setSelectionRange(currentPos + 1, currentPos + 1);
       },
       MetaLeft: function MetaLeft(e, textarea) {}
     };
   },
-  rerenderButton: function rerenderButton(button) {},
   rerender: function rerender() {
     var _this6 = this;
     dataButtons.forEach(function (button) {
@@ -923,16 +909,5 @@ var Keyboard = {
 window.addEventListener('DOMContentLoaded', function () {
   Keyboard.init();
 });
-
-// смена языка на клавиатуре ++
-// смена на заглавные буквы 1) нажимаем capslock 2) нажимаем shift--
-// подсветка дублирующих кнопок при нажатии ++
-// фикс двойных символов ++
-// фикс нажатия неизвестных кнопок которые дают undfined ++
-// создание боковой панели для сочетания клавишь
-// создание одной функции для switch ++
-// рефакторинг кода, возможно создание класса +-
-// доделать стили
-// доделать удаление через backspace так же как и на del ++
 /******/ })()
 ;
