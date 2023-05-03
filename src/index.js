@@ -7,17 +7,21 @@ const Keyboard = {
   mode: 'lowercase',
   locale: 'en',
   textarea: null,
-  shift: false,
-  alt: false,
   isCapsPressed: false,
   keyFunctions: null,
 
   init() {
+    // сохраняю данные в локальном храналище браузера
+    const savedLocale = localStorage.getItem('locale');
+    if (savedLocale) {
+      this.locale = savedLocale;
+    }
+
     body.append(this.createSection());
     this.initiateKeyFunctions();
-    // Для избежания дублирования символов при нажатии кнопок на физической клавиатуре
 
     document.addEventListener('keydown', (e) => {
+      // Для избежания дублирования символов при нажатии кнопок на физической клавиатуре
       const target = e.target;
       if (target.tagName === 'TEXTAREA') {
         e.preventDefault();
@@ -75,7 +79,7 @@ const Keyboard = {
     this.updateLangLabel(span);
     document.addEventListener('keydown', (e) => {
       if (e.shiftKey && e.altKey) {
-        input.checked = !input.checked
+        input.checked = !input.checked;
         this.switchLanguage();
         this.updateLangLabel(span);
       }
@@ -286,7 +290,7 @@ const Keyboard = {
         } else {
           htmlButton.classList.remove(htmlClass);
         }
-        this.isCapsPressed = !this.isCapsPressed
+        this.isCapsPressed = !this.isCapsPressed;
         this.switchMode();
       },
       Space: (e, textarea) => {
@@ -400,3 +404,6 @@ window.addEventListener('DOMContentLoaded', () => {
   Keyboard.init();
 });
 
+window.addEventListener('beforeunload', function () {
+  localStorage.setItem('locale', Keyboard.locale);
+});

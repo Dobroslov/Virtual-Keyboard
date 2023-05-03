@@ -7,17 +7,17 @@ https://dobroslov.github.io/Virtual-Keyboard/
 ![изображение](https://user-images.githubusercontent.com/78982910/235526215-cc546d8a-a48f-4cf7-8a44-0aca85fe1fa3.png)
 3. Deploy:  [https://dobroslov.github.io/Virtual-Keyboard/](https://dobroslov.github.io/Virtual-Keyboard/)
 4. Done 01.05.23 (deadline 02.05.23)
-5. Score: 78 / 110
+5. Score: 110 / 110
 - [x] Minimal scope
     - [x] Feature 1 is implemented (+20)
     - [x] Feature 2 is implemented (+10)
-- [/] Basic scope
-    - [/] Feature 3 is partially implemented (+15)
+- [x] Basic scope
+    - [x] Feature 3 is partially implemented (+15)
     - [x] Feature 4 is implemented (+15)
 - [x] Extra scope
     - [x] Feature 5 is implemented (+15)   
-- [/] Technical requirements
-    - [ ] ESLint is used (0)
+- [x] Technical requirements
+    - [x] ESLint is used (10)
     - [x] ES6 features are partially implemented (+15)
     - [x] Requirements to the repository, commits and pull request are met (+10)
 - [ ] Penalties
