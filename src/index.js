@@ -37,7 +37,7 @@ const Keyboard = {
     container.classList.add('container');
     container.append(
       this.createTitle(),
-      this.createHandleToggleLang(this.locale),
+      this.createInfoPanelWrapper(),
       this.createWrapper()
     );
     return container;
@@ -57,26 +57,34 @@ const Keyboard = {
     return wrapper;
   },
 
+  createInfoPanelWrapper() {
+    const panel = document.createElement('div');
+    panel.classList.add('keyboard__panel-info');
+    panel.append(this.createHandleToggleLang(), this.createButtonExample());
+    return panel;
+  },
+
   createHandleToggleLang() {
-    const handlToggle = document.createElement('div');
-    handlToggle.classList.add('checkbox-wrapper');
+    const handleToggle = document.createElement('div');
+    handleToggle.classList.add('checkbox-wrapper');
     const input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
     const span = this.createHandleToggleSpan();
-    handlToggle.append(input, span, this.createButtonExample());
+    handleToggle.append(input, span);
     this.updateLangLabel(span);
     document.addEventListener('keydown', (e) => {
       if (e.shiftKey && e.altKey) {
+        input.checked = !input.checked
         this.switchLanguage();
         this.updateLangLabel(span);
       }
     });
-    handlToggle.addEventListener('click', () => {
+    handleToggle.addEventListener('click', () => {
       this.switchLanguage();
       this.updateLangLabel(span);
     });
-    return handlToggle;
+    return handleToggle;
   },
 
   createHandleToggleSpan() {
@@ -95,10 +103,10 @@ const Keyboard = {
     divExample.classList.add('info__buttons');
     const fistBtn = document.createElement('div');
     fistBtn.classList.add('key');
-    fistBtn.textContent = 'Alt';
+    fistBtn.textContent = 'Shift';
     const secondBtn = document.createElement('div');
     secondBtn.classList.add('key');
-    secondBtn.textContent = 'Ctrl';
+    secondBtn.textContent = 'Alt';
     const div = document.createElement('div');
     div.classList.add('info__buttons_text');
     div.textContent = '+';
@@ -169,16 +177,6 @@ const Keyboard = {
       let textarea = this.textarea;
       textarea.focus();
       if (target.classList.contains('key')) {
-        if (button.eventCode === 'CapsLock') {
-          if (this.isCapsPressed === false) {
-            target.classList.add('active-click');
-            this.isCapsPressed = true;
-          } else {
-            target.classList.remove('active-click');
-            this.isCapsPressed = false;
-          }
-        }
-
         if (!button.hasOwnProperty('isFunctional')) {
           textarea.value += target.textContent;
         } else {
@@ -193,25 +191,6 @@ const Keyboard = {
     this.initiateHandlerKeyDown();
     this.initiateHandlerKeyUp();
     return keys;
-  },
-
-  handleMode(text) {
-    return this.mode === 'uppercase' ? text.toUpperCase() : text.toLowerCase();
-  },
-
-  findButtonById(id) {
-    const button = buttons.find((buttonObj) => buttonObj.id === id);
-    return button ? button : null;
-  },
-
-  findButtonByCode(eventCode) {
-    let result = buttons.find((buttonObj) => {
-      if (buttonObj.eventCode === eventCode) {
-        return true;
-      }
-    });
-
-    return result ? result : null;
   },
 
   initiateHandlerKeyDown() {
@@ -230,11 +209,7 @@ const Keyboard = {
 
       if (button) {
         const key = document.getElementById(button.id);
-        if (button.eventCode === 'CapsLock') {
-          this.handleCapsLock(key);
-        } else {
-          key.classList.add('active');
-        }
+        key.classList.add('active');
       }
 
       if (button && !button.hasOwnProperty('isFunctional')) {
@@ -250,17 +225,6 @@ const Keyboard = {
     });
   },
 
-  handleCapsLock(key) {
-    if (this.isCapsPressed === false) {
-      key.classList.add('active');
-      this.isCapsPressed = true;
-      console.log(this.isCapsPressed);
-    } else {
-      key.classList.remove('active');
-      this.isCapsPressed = false;
-    }
-  },
-
   initiateHandlerKeyUp() {
     document.addEventListener('keyup', (e) => {
       const pressedEventCode = e.code;
@@ -269,6 +233,12 @@ const Keyboard = {
         const key = document.getElementById(button.id);
         if (button.eventCode === 'CapsLock') {
           return;
+        } else if (
+          button.eventCode === 'ShiftLeft' ||
+          button.eventCode === 'ShiftRight'
+        ) {
+          this.switchMode();
+          key.classList.remove('active');
         } else {
           key.classList.remove('active');
         }
@@ -276,91 +246,19 @@ const Keyboard = {
     });
   },
 
-  useSpace() {
-    this.textarea.value += ' ';
+  findButtonById(id) {
+    const button = buttons.find((buttonObj) => buttonObj.id === id);
+    return button ? button : null;
   },
 
-  useTab() {
-    this.textarea.value += '    ';
-  },
+  findButtonByCode(eventCode) {
+    let result = buttons.find((buttonObj) => {
+      if (buttonObj.eventCode === eventCode) {
+        return true;
+      }
+    });
 
-  useEnter() {
-    this.textarea.value += '\n';
-  },
-
-  useBackspace(textarea) {
-    let currentPos = textarea.selectionStart;
-    let endPos = textarea.selectionEnd;
-    let text = textarea.value;
-    if (currentPos === endPos) {
-      // Если нет выделенного текста
-      text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
-      textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
-      textarea.selectionEnd = currentPos - 1;
-    } else {
-      // Если есть выделенный текст
-      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
-      textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
-      textarea.selectionEnd = currentPos;
-    }
-    textarea.value = text; // Обновляем значение textarea
-  },
-
-  useDelete(textarea) {
-    let currentPos = textarea.selectionStart;
-    let endPos = textarea.selectionEnd;
-    let text = textarea.value;
-    if (currentPos === endPos) {
-      // Если нет выделенного текста
-      text = text.slice(0, currentPos) + text.slice(currentPos + 1); // Удаляем символ после курсора
-    } else {
-      // Если есть выделенный текст
-      text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
-    }
-    textarea.value = text; // Обновляем значение textarea
-    textarea.selectionStart = currentPos; // Устанавливаем курсор на том же месте
-    textarea.selectionEnd = currentPos;
-  },
-
-  useArrowRight(textarea) {
-    const currentPos = textarea.selectionStart;
-    textarea.setSelectionRange(currentPos + 1, currentPos + 1);
-  },
-
-  useArrowLeft(textarea) {
-    const currentPos = textarea.selectionStart;
-    textarea.setSelectionRange(currentPos - 1, currentPos - 1);
-  },
-
-  useArrowBottom(textarea) {
-    const currentPosition = textarea.selectionStart;
-    const currentLine =
-      textarea.value.substr(0, currentPosition).split('\n').length - 1;
-    const lineLength = textarea.value.split('\n')[currentLine].length;
-    let nextPosition;
-    if (currentLine === textarea.value.split('\n').length - 1) {
-      nextPosition = currentPosition;
-    } else {
-      nextPosition = Math.min(
-        currentPosition + lineLength + 1,
-        textarea.value.length
-      );
-    }
-    textarea.setSelectionRange(nextPosition, nextPosition);
-  },
-
-  useArrowTop(textarea) {
-    const currentPosition = textarea.selectionStart;
-    const currentLine =
-      textarea.value.substr(0, currentPosition).split('\n').length - 1;
-    const lineLength = textarea.value.split('\n')[currentLine].length;
-    let prevPosition;
-    if (currentLine === 0) {
-      prevPosition = currentPosition;
-    } else {
-      prevPosition = Math.max(currentPosition - lineLength - 1, 0);
-    }
-    textarea.setSelectionRange(prevPosition, prevPosition);
+    return result ? result : null;
   },
 
   switchMode() {
@@ -373,33 +271,70 @@ const Keyboard = {
     this.rerender();
   },
 
+  handleMode(text) {
+    return this.mode === 'uppercase' ? text.toUpperCase() : text.toLowerCase();
+  },
+
   initiateKeyFunctions() {
     this.keyFunctions = {
-      Space: (e, textarea) => this.useSpace(),
+      CapsLock: (e, textarea) => {
+        const button = this.findButtonByCode('CapsLock');
+        const htmlButton = document.getElementById(button.id);
+        let htmlClass = e.type === 'click' ? 'active-click' : 'active';
+        if (this.isCapsPressed === false) {
+          htmlButton.classList.add(htmlClass);
+        } else {
+          htmlButton.classList.remove(htmlClass);
+        }
+        this.isCapsPressed = !this.isCapsPressed
+        this.switchMode();
+      },
+      Space: (e, textarea) => {
+        this.textarea.value += ' ';
+      },
       Enter: (e, textarea) => {
         e.preventDefault();
-        this.useEnter();
+        this.textarea.value += '\n';
       },
       Delete: (e, textarea) => {
         e.preventDefault();
-        this.useDelete(textarea);
+        let currentPos = textarea.selectionStart;
+        let endPos = textarea.selectionEnd;
+        let text = textarea.value;
+        if (currentPos === endPos) {
+          // Если нет выделенного текста
+          text = text.slice(0, currentPos) + text.slice(currentPos + 1); // Удаляем символ после курсора
+        } else {
+          // Если есть выделенный текст
+          text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+        }
+        textarea.value = text; // Обновляем значение textarea
+        textarea.selectionStart = currentPos; // Устанавливаем курсор на том же месте
+        textarea.selectionEnd = currentPos;
       },
-      Backspace: (e, textarea) => this.useBackspace(textarea),
-      AltLeft: (e, textarea) => {
-        e.preventDefault();
+      Backspace: (e, textarea) => {
+        let currentPos = textarea.selectionStart;
+        let endPos = textarea.selectionEnd;
+        let text = textarea.value;
+        if (currentPos === endPos) {
+          // Если нет выделенного текста
+          text = text.slice(0, currentPos - 1) + text.slice(currentPos); // Удаляем символ перед курсором
+          textarea.selectionStart = currentPos - 1; // Сдвигаем курсор на один символ влево
+          textarea.selectionEnd = currentPos - 1;
+        } else {
+          // Если есть выделенный текст
+          text = text.slice(0, currentPos) + text.slice(endPos); // Удаляем выделенный текст
+          textarea.selectionStart = currentPos; // Устанавливаем курсор на начало выделенного текста
+          textarea.selectionEnd = currentPos;
+        }
+        textarea.value = text; // Обновляем значение textarea
       },
-      AltRight: (e, textarea) => {
-        e.preventDefault();
-      },
-      ControlLeft: (e, textarea) => {
-        e.preventDefault();
-      },
-      ControlRight: (e, textarea) => {
-        e.preventDefault();
-      },
+      AltLeft: (e, textarea) => {},
+      AltRight: (e, textarea) => {},
+      ControlLeft: (e, textarea) => {},
+      ControlRight: (e, textarea) => {},
       ShiftLeft: (e, textarea) => {
         e.preventDefault();
-        console.log(e.key);
         this.switchMode();
       },
       ShiftRight: (e, textarea) => {
@@ -408,29 +343,48 @@ const Keyboard = {
       },
       Tab: (e, textarea) => {
         e.preventDefault();
-        this.useTab();
-      },
-      CapsLock: (e, textarea) => {
-        console.log();
-        this.switchMode();
+        this.textarea.value += '    ';
       },
       ArrowUp: (e, textarea) => {
-        this.useArrowTop(textarea);
+        const currentPosition = textarea.selectionStart;
+        const currentLine =
+          textarea.value.substr(0, currentPosition).split('\n').length - 1;
+        const lineLength = textarea.value.split('\n')[currentLine].length;
+        let prevPosition;
+        if (currentLine === 0) {
+          prevPosition = currentPosition;
+        } else {
+          prevPosition = Math.max(currentPosition - lineLength - 1, 0);
+        }
+        textarea.setSelectionRange(prevPosition, prevPosition);
       },
       ArrowLeft: (e, textarea) => {
-        this.useArrowLeft(textarea);
+        const currentPos = textarea.selectionStart;
+        textarea.setSelectionRange(currentPos - 1, currentPos - 1);
       },
       ArrowDown: (e, textarea) => {
-        this.useArrowBottom(textarea);
+        const currentPosition = textarea.selectionStart;
+        const currentLine =
+          textarea.value.substr(0, currentPosition).split('\n').length - 1;
+        const lineLength = textarea.value.split('\n')[currentLine].length;
+        let nextPosition;
+        if (currentLine === textarea.value.split('\n').length - 1) {
+          nextPosition = currentPosition;
+        } else {
+          nextPosition = Math.min(
+            currentPosition + lineLength + 1,
+            textarea.value.length
+          );
+        }
+        textarea.setSelectionRange(nextPosition, nextPosition);
       },
       ArrowRight: (e, textarea) => {
-        this.useArrowRight(textarea);
+        const currentPos = textarea.selectionStart;
+        textarea.setSelectionRange(currentPos + 1, currentPos + 1);
       },
       MetaLeft: (e, textarea) => {},
     };
   },
-
-  rerenderButton(button) {},
 
   rerender() {
     buttons.forEach((button) => {

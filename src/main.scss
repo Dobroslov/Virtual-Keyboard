@@ -53,6 +53,13 @@ body {
   flex-direction: column;
 }
 
+.keyboard__panel-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1em 0;
+}
+
 .info__title {
   margin: 1em;
   color: #fba54f;
@@ -62,7 +69,13 @@ body {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-left: 270px;
+  width: 85%;
+  color: #fba54f;
+}
+
+.info__buttons + .key {
+  cursor: pointer;
+  color: #fba54f;
 }
 
 .info__buttons_text {
@@ -95,7 +108,6 @@ body {
   min-width: 40px;
   max-width: 100%;
   margin: 7px;
-  font-size: 24px;
   cursor: pointer;
   color: #000000;
   font-size: 1.4rem;
@@ -138,11 +150,7 @@ body {
 
 // Checkbox language
 .checkbox-wrapper {
-  margin: 10px 0;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .checkbox-wrapper input[type='checkbox'] {
@@ -155,9 +163,7 @@ body {
   cursor: pointer;
   height: 25px;
   padding-right: 25px;
-  width: 75px;
-  -webkit-appearance: none;
-  -webkit-transition: 0.25s;
+  width: 75px;  
 }
 
 .checkbox-wrapper input[type='checkbox']:after {
