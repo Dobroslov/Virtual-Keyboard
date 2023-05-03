@@ -8,6 +8,7 @@ const Keyboard = {
   locale: 'en',
   textarea: null,
   shift: false,
+  alt: false,
   isCapsPressed: false,
   keyFunctions: null,
 
@@ -62,7 +63,7 @@ const Keyboard = {
     const input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
-    const span = this.createHandleToggleSpan();
+    const span = this.createHandleToggleSpan();    
     handlToggle.append(input, span);
     this.updateLangLabel(span);
     document.addEventListener('keydown', (e) => {
@@ -149,6 +150,16 @@ const Keyboard = {
       let textarea = this.textarea;
       textarea.focus();
       if (target.classList.contains('key')) {
+        if (button.eventCode === 'CapsLock') {
+          if (this.isCapsPressed === false) {
+            target.classList.add('active-click');
+            this.isCapsPressed = true;
+          } else {
+            target.classList.remove('active-click');
+            this.isCapsPressed = false;
+          }
+        }
+
         if (!button.hasOwnProperty('isFunctional')) {
           textarea.value += target.textContent;
         } else {
@@ -210,7 +221,7 @@ const Keyboard = {
       if (button && !button.hasOwnProperty('isFunctional')) {
         textarea.value += presedKey;
       } else {
-        let keyFunction = this.keyFunctions[button.eventCode];
+        let keyFunction = this.keyFunctions[button?.eventCode];
         if (keyFunction) {
           keyFunction(e, textarea);
         } else {
@@ -222,7 +233,6 @@ const Keyboard = {
 
   handleCapsLock(key) {
     if (this.isCapsPressed === false) {
-      console.log(this.isCapsPressed);
       key.classList.add('active');
       this.isCapsPressed = true;
       console.log(this.isCapsPressed);

@@ -2,7 +2,6 @@
 @import './sass/keyboard';
 @import './sass/fonts/_fonts';
 
-
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
@@ -15,9 +14,9 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  max-width: 1100px;
+  max-width: 870px;
   margin: 0 auto;
-  height: auto;
+  height: 100vh;
   width: 100%;
 }
 
@@ -48,8 +47,17 @@ body {
   font-weight: 700;
 }
 
+.keyboard__wrapper {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.info__title {
+  margin: 1em;
+  color: #fba54f;
+}
 .keyboard__keys {
-  width: 70%;
   width: 100%;
   padding: 40px 10px;
   border-radius: 15px;
@@ -99,6 +107,12 @@ body {
 }
 
 .key:active {
+  border-radius: 6px;
+  background: #f4c240;
+  box-shadow: inset -7px 7px 14px #b28e2f, inset 7px -7px 14px #fff651;
+}
+
+.key.active-click {
   border-radius: 6px;
   background: #f4c240;
   box-shadow: inset -7px 7px 14px #b28e2f, inset 7px -7px 14px #fff651;
