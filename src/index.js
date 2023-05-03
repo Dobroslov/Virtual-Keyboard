@@ -63,8 +63,8 @@ const Keyboard = {
     const input = document.createElement('input');
     input.id = 'toggle-lang';
     input.type = 'checkbox';
-    const span = this.createHandleToggleSpan();    
-    handlToggle.append(input, span);
+    const span = this.createHandleToggleSpan();
+    handlToggle.append(input, span, this.createButtonExample());
     this.updateLangLabel(span);
     document.addEventListener('keydown', (e) => {
       if (e.shiftKey && e.altKey) {
@@ -88,6 +88,25 @@ const Keyboard = {
   updateLangLabel(span) {
     const language = this.locale === 'en' ? 'English' : 'Русский';
     span.innerText = `${language}`;
+  },
+
+  createButtonExample() {
+    const divExample = document.createElement('div');
+    divExample.classList.add('info__buttons');
+    const fistBtn = document.createElement('div');
+    fistBtn.classList.add('key');
+    fistBtn.textContent = 'Alt';
+    const secondBtn = document.createElement('div');
+    secondBtn.classList.add('key');
+    secondBtn.textContent = 'Ctrl';
+    const div = document.createElement('div');
+    div.classList.add('info__buttons_text');
+    div.textContent = '+';
+    const divText = document.createElement('div');
+    divText.classList.add('info__buttons_text');
+    divText.textContent = 'Change language';
+    divExample.append(fistBtn, div, secondBtn, divText);
+    return divExample;
   },
 
   createTextarea() {
